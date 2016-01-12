@@ -1,4 +1,4 @@
-<div class="dashboard" ng-controller="OrderAdminCtrl">
+<div class="dashboard" >
 
   <!-- MENU -->
   <nav  class="navbar navbar-inverse navbar-fixed-top" role="navigation"
@@ -8,7 +8,7 @@
   <div class="container-fluid" ng-init="loadActivities()">
     <div class="row">
       <!-- SIDEBAR MENU -->
-      <div class="col-xs-8 col-sm-4 col-lg-2 sidebar " 
+      <div class="col-xs-8 col-sm-4 col-lg-2 sidebar hide" 
            ng-include="'/partials/dashboard/dashboard-sidebar.html'" 
            ng-class="{'menu-off':!options.showMenu}">
       </div>

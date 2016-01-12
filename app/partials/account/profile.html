@@ -1,13 +1,8 @@
 <div tabindex="-1" class="screen-content" ng-controller="AccountCtrl">
   
-  <aside ng-include="'/partials/account/cover.html'" 
-         class="cover cover-home img-loaded" 
-         ng-class="{'session':user.isAuthenticated()}">
-  </aside>
 
-
-   <section class="wrapper" tabindex="-1">
-      <div class="wrapper-inner">
+   <section class="" tabindex="-1">
+      <div class="">
 
 
 
@@ -24,8 +19,8 @@
 
 
       <form name="form" novalidate="novalidate" class="wizard " ng-submit="save(user)" >
-        <div class="form-background well white clearfix">
-          <h5 class="article-group-title " >
+        <div class=" clearfix">
+          <h5 class=" " >
             Vos données personnelles
           </h5>          
 
@@ -96,7 +91,7 @@
               class="pull-right btn btn-small btn-inverse"><i class="fa fa-remove"></i> </a>
 
 
-            <h4 class="article-group-title black" >
+            <h4 class=" black" >
                 Adresse {{user.addresses[$index].name}} 
             </h4>          
             <div class="form-background">
@@ -138,20 +133,11 @@
               <label class="colsm2 control-label">Code Postal</label>
               <div class="colsm10">
                   <select class="form-control input-lg" ng-model="user.addresses[$index].postalCode"  
-                           data-ng-options="l for l in config.shop.user.location.list" 
+                           data-ng-options="l for l in config.share.user.location.list" 
                            ng-change="updateMap(user.addresses[$index],user)" required>
                       <option value="">-- Choisissez  --</option>
                   </select>
                   <p class="help-block">Codes postaux actuellement disponibles pour la livraison</p>
-              </div>
-              <div class="colsm10 form-inline well" ng-hide="user.addresses[$index].postalCode||user.mailchimp">
-                  <div class="lead">Votre code postal n'est pour l'instant pas disponible pour la livraison? Accelérez sa mise en service en souscrivant maintenant!</div>
-                  <input id="open-cp" type="number" min="1200" max="1299" ng-model="open_cp" type="text" placeholder="Votre code postal" class="form-control input-lg" required>
-                  <a  href="#" 
-                      ng-disabled="!open_cp"
-                      ng-click="subscribe(user,open_cp)"
-                      class="btn btn-warning btn-lg pull-right">Ouvrir mon secteur !</a>
-
               </div>
             </div>
 
@@ -160,7 +146,7 @@
               <label class="colsm2 control-label">Region</label>
               <div class="colsm10">
                   <select class="form-control input-lg" ng-model="user.addresses[$index].region"  
-                           data-ng-options="l for l in config.shop.user.region.list" 
+                           data-ng-options="l for l in config.share.user.region.list" 
                            ng-change="updateMap(user.addresses[$index],user)" required>
                       <option value="">-- Choisissez  --</option>
                   </select>
@@ -199,12 +185,6 @@
             </button> 
           </div>          
       </form>      
-
-
-
-
-      <!-- FOOTER -->              
-        <footer class="wrapper-footer" ng-include="'/footer.html'"></footer>
 
       </section>
    </section>

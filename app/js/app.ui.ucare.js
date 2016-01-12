@@ -31,7 +31,7 @@ function uploadcareWidget(config, $parse, $timeout, $log) {
       // uploadcare.openDialog(null, {
       //     publicKey: config.uploadcare,
       // });      
-      config.shop.then(function () {
+      config.shared.then(function () {
 
         $scope.widget = uploadcare.Widget($element);
         $scope.widget.validators.push(function(fileInfo) {

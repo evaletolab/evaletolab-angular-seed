@@ -26,7 +26,6 @@ exports.config =
           'bower_components/angular/angular-loader.js',
           'bower_components/angular/angular-cookies.js',
           'bower_components/angular/angular-resource.js',
-          'bower_components/nprogress/nprogress.js',
           'bower_components/underscore/underscore.js'
         ]
 
@@ -41,7 +40,6 @@ exports.config =
       order:
         before: [
           'app/css/fonts.css',
-          'bower_components/nprogress/nprogress.css',
           'vendor/styles/font-awesome.css'
           'vendor/styles/bootstrap.css'
         ]
@@ -61,9 +59,10 @@ exports.config =
 
 
   plugins:
-    signature:
-      file: 'signature'
-      ignore: /[\\/][.]/
+    sass:
+      mode: 'native'
+      options:
+        includePaths: ['bower_components/bootstrap-sass/assets/stylesheets']
 
     angular_templates:
       module: 'app.templates'

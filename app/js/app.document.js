@@ -36,10 +36,10 @@ function docConfig($routeProvider, $locationProvider, $httpProvider){
 //
 // implement controller
 docCtrl.$inject=[
-  '$scope','$rootScope','$routeParams','config','document','product','feedback'
+  '$scope','$rootScope','$routeParams','config','document','feedback'
 ];
 
-function docCtrl ($scope,$rootScope, $routeParams, config, document, product, feedback) {
+function docCtrl ($scope,$rootScope, $routeParams, config, document, feedback) {
   //
   // init context
   $scope.document=document;
@@ -67,8 +67,8 @@ function docCtrl ($scope,$rootScope, $routeParams, config, document, product, fe
   // init an empty list
   $scope.documents=[];
   
-  config.shop.then(function () {
-    $scope.types=config.shop.document.types;
+  config.shared.then(function () {
+    $scope.types=config.shared.document.types;
   });
 
   var api=$scope.api, config=$scope.config, user=$scope.user;
@@ -117,9 +117,6 @@ function docCtrl ($scope,$rootScope, $routeParams, config, document, product, fe
     }
     document.get($routeParams.slug).model.$promise.then(function(){
       $rootScope.title='documents '+document.model.slug+' - '+document.model.title;
-      if(document.model.products){
-        document.model.products=product.wrapArray(document.model.products);
-      }
     });
   }
   
@@ -203,7 +200,7 @@ function docFactory (config, $resource, $q,$rootScope, api,user) {
 
 
   Document.prototype.getCategories = function() {
-    return config.shop.document.types;
+    return config.shared.document.types;
   }
 
   Document.prototype.clear = function() {

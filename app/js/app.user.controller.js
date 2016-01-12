@@ -3,7 +3,7 @@
 //
 // Define the User module (app.user)  for controllers, services and models
 // the app.user module depend on app.config and take resources in account/*.html
-var User=angular.module('app.user', ['app.config','app.user.ui'])
+var User=angular.module('app.user', ['app.config','app.user.ui','app.user.factory'])
   .config(userConfig)
   .controller('AccountCtrl',AccountCtrl);
 
@@ -25,16 +25,12 @@ function userConfig ($routeProvider, $locationProvider, $httpProvider) {
     .when('/account', {title:'Votre profil', _view:'main',redirectTo : '/account/overview'})
     .when('/account/', {title:'Votre profil', _view:'main', redirectTo : '/account/overview'})
     .when('/account/love', {_view:'main', love:true, templateUrl : '/partials/product/love.html'})
-    .when('/account/shop', {_view:'main', templateUrl : '/partials/account/shop.html'})
-    .when('/account/payment', {_view:'main', templateUrl : '/partials/account/payment.html'})
-    .when('/account/orders', {_view:'main', templateUrl : '/partials/account/orders.html'})
     .when('/account/overview', {auth : true, _view:'main', templateUrl : '/partials/account/overview.html'})
-    .when('/account/wallet', {auth : true, _view:'main', templateUrl : '/partials/account/wallet.html'})
-    .when('/account/wallet/create', {auth : true, _view:'main', templateUrl : '/partials/account/wallet-create.html'})
     .when('/account/password', {auth : true, _view:'main', templateUrl : '/partials/account/password.html'})
     .when('/account/profile', {auth : true, _view:'main', templateUrl : '/partials/account/profile.html'})
     .when('/account/signup', {view:'main', templateUrl : '/partials/account/profile.html'})
-
+    .when('/admin/config', {title:'Configuration ', templateUrl : '/partials/dashboard/dashboard-config.html'})
+    .when('/admin/activities', {title:'Configuration ', templateUrl : '/partials/dashboard/dashboard-activity.html'})
     .when('/admin/user', {title:'Admin of users ', templateUrl : '/partials/admin/user.html'});
 }
 

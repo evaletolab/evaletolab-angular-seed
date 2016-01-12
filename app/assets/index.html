@@ -71,13 +71,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Project name</a>
+          <a class="navbar-brand" href="#">Karibou SEED</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
+            <li ng-class="getHomeClass()"><a href="/">Home</a></li>
+            <li ng-class="getClass('/about')"><a  href="/about">About</a></li>
+            <li ng-class="getClass('/contact')"><a href="/contact">Contact</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
               <ul class="dropdown-menu">
@@ -91,22 +91,34 @@
               </ul>
             </li>
           </ul>
+          <ul class="nav navbar-nav navbar-right">          
+            <li ng-hide="user.isAuthenticated()" ng-class="getClass('/login')">
+              <a  ng-href="/login"><i class="fa fa-user"></i>&nbsp;Login</a>
+            </li>
+            <li ng-hide="user.isAuthenticated()" ng-class="getClass('/signup')">
+              <a class=" " ng-href="/signup"><i class="fa fa-fire"> </i>&nbsp;Sign Up</a>
+            </li>
+
+            <!-- SIGNED -->
+            <li ng-show="user.isAuthenticated()" ng-class="getClass('/account/overview')">
+              <a   ng-href="/account/overview" ><i class="fa fa-wrench green"></i>&nbsp;@{{user.display()}}</a>
+            </li>
+            <li ng-show="user.isAuthenticated()">
+              <a  class="" href="" ng-click="logout()"><i class="fa fa-sign-out green"></i>&nbsp;logout</a>
+            </li>
+          </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
     <!-- Begin page content -->
-    <div class="container">
-      <div class="page-header">
-        <h1>Sticky footer with fixed navbar</h1>
-      </div>
-      <p class="lead">Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS. A fixed navbar has been added with <code>padding-top: 60px;</code> on the <code>body > .container</code>.</p>
-      <p>Back to <a href="../sticky-footer">the default sticky footer</a> minus the navbar.</p>
+    <div class="container" ng-view>
     </div>
 
     <footer class="footer">
       <div class="container">
         <p class="text-muted">Place sticky footer content here.</p>
+        <div ng-include="'/partials/feedback.html'"></div>
       </div>
     </footer>
    </body>

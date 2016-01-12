@@ -252,7 +252,7 @@ function appRun($templateCache, $route, $http, $timeout, config) {
   // special setup that depends on config 
   config.shared.then(function () {
       // init uploadcare key here
-      // config.uploadcare=config.shop.keys.pubUpcare;
+      // config.uploadcare=config.shared.keys.pubUpcare;
       // uploadcare.start({ publicKey: config.uploadcare, maxSize:153600});  
   });
 

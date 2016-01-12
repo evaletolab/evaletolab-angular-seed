@@ -25,6 +25,6 @@
     "underscore": "1.x",
     "uploadcare": "2.x",
     "angular-loading-bar": "~0.8.0",
-    "bootstrap-sass": "~3.3.6",
+    "bootstrap": "3.x"
   }
 }

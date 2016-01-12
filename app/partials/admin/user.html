@@ -8,7 +8,7 @@
   <div class="container-fluid" ng-init="findAllUsers()">
     <div class="row">
       <!-- SIDEBAR MENU -->
-      <div class="col-xs-8 col-sm-4 col-lg-2 sidebar " 
+      <div class="col-xs-8 col-sm-4 col-lg-2 sidebar hide" 
            ng-include="'/partials/dashboard/dashboard-sidebar.html'" 
            ng-class="{'menu-off':!options.showMenu}">
       </div>
@@ -52,8 +52,8 @@
                 <td ng-class="{'danger':u.email.status!==true}">
                     {{u.displayName}}
                 </td>
-                <td>{{u.logged|dateLabelShort}}</td>
-                <td>{{u.updated|dateLabelShort}}</td>
+                <td>{{u.logged}}</td>
+                <td>{{u.updated}}</td>
                 <td ng-class="{'danger':u.email.status!==true}">{{u.getEmailStatus()}}</td>
                 <td>{{u.hasPrimaryAddress()}}</td>
                 <td>{{u.roles}}</td>

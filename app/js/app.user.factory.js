@@ -3,7 +3,7 @@
 //
 // Define the User module (app.user)  for controllers, services and models
 // the app.user module depend on app.config and take resources in account/*.html
-angular.module('app.user')
+angular.module('app.user.factory',[])
   .factory('user',userFactory);;
 
 //
@@ -273,7 +273,7 @@ function userFactory(config, $location, $rootScope, $route, $resource, $log, $q,
     this.populateAdresseName(user);
     var u = $resource(config.API_SERVER+'/register').save(user, function() {
       _user.copy(u);
-      _user.updateGeoCode();
+      // _user.updateGeoCode();
 
 
       if(cb)cb(_user);
@@ -291,7 +291,7 @@ function userFactory(config, $location, $rootScope, $route, $resource, $log, $q,
   User.prototype.login=function (data, cb){
     var u = $resource(config.API_SERVER+'/login').save(data, function() {
       _user.copy(u);
-      _user.updateGeoCode();
+      // _user.updateGeoCode();
       if(cb)cb(_user);
     });
     return u;

@@ -63,7 +63,7 @@ function appCtrl($scope, $rootScope, $window,  $location, $routeParams, $timeout
   //
   // get the head title up2date 
   $rootScope.$on('$routeChangeStart', function (event, current, previous) {
-    var longpath=$location.path();
+    var longpath=$scope.activeNavId=$location.path();
     user.$promise.finally(function(){
       if (!user.isAuthenticated()){
         if(_.find(config.loginPath,function(path){
@@ -167,6 +167,11 @@ function appCtrl($scope, $rootScope, $window,  $location, $routeParams, $timeout
     if (or && $scope.activeNavId.substring(0, or.length) === or) {
       return 'active';
     }
+    return '';
+  };
+
+  $scope.getHomeClass = function () {
+    if($scope.activeNavId==='/') return 'active';
     return '';
   };
  

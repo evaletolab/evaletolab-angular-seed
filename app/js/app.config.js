@@ -93,7 +93,7 @@ function ConfigCtrl($scope,$resource,config,api){
   //
   // save stored config (admin only)
   $scope.saveConfig=function(){
-    $dao.save(config.shop,function(){
+    $dao.save(config.shared,function(){
       api.info($scope,"Configuration sauvée");
     });
   };
