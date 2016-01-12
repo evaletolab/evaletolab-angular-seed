@@ -189,12 +189,11 @@ function apiFactory($rootScope, $http, $resource, $timeout, $q, $log, $location,
     uploadfile:uploadfile,
     wrapDomain:wrapDomain,
     findBySlug:findBySlug,
-    computeUrl:computeUrl,
     error:error,
     info:info
   };
 }
-}
+
 
 
 

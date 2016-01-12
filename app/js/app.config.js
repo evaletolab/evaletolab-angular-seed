@@ -71,7 +71,7 @@ function appConfig($q, $resource, $sce, API_SERVER) {
   
   //
   // get server side config
-  defaultConfig.shop=deferred.promise;
+  defaultConfig.shared=deferred.promise;
   var serverSettings=$resource(defaultConfig.API_SERVER+'/v1/config').get(function(){
       angular.extend(defaultConfig.shared,serverSettings);
 

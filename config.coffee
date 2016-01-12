@@ -46,7 +46,6 @@ exports.config =
           'vendor/styles/bootstrap.css'
         ]
         after: [
-          'vendor/styles/bootstrap-theme.css'
         ]
 
 

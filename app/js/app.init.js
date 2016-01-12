@@ -2,8 +2,8 @@
 
 // 
 // chromium-browser --ignore-gpu-blacklist --disable-gpu-sandbox
-// var API_SERVER='http://localhost:4000';
-var API_SERVER='//api.'+window.location.hostname;
+var API_SERVER='http://localhost:4000';
+// var API_SERVER='//api.'+window.location.hostname;
 // var API_SERVER='http://192.168.1.35:4000'
 // var API_SERVER='http://karibou-api.cloudfoundry.com'
 // var API_SERVER='http://karibou-evaletolab.rhcloud.com'
@@ -17,14 +17,12 @@ angular.module('app', [
   'ngRoute',
   'ngSanitize',
   'ngTouch',
-  'ngCMS',
   'ngAnimate',
   'ngUploadcare',  
   'infinite-scroll',
   'angular.filter',
   'app.templates',
   'app.config',
-  'app.storage',
   'app.raven',
   'app.api',
   'app.root',
@@ -35,7 +33,6 @@ angular.module('app', [
   .value('API_SERVER',API_SERVER)
   .config(appConfig)
   .factory('errorInterceptor', errorInterceptor)
-  .factory('cordovaReady',cordovaReady)
   .run(appRun);
 
 
@@ -144,6 +141,7 @@ function appConfig( $provide, $routeProvider, $locationProvider, $httpProvider) 
   // List of routes of the application
   $routeProvider
     // Pages
+    .when('/',{templateUrl:'/partials/pages/welcome.html'})
     .when('/welcome',{templateUrl:'/partials/pages/welcome.html'})
     .when('/the-site-is-currently-down-for-maintenance-reasons', {title:'the site is currently down for maintenance reasons',templateUrl : '/partials/errors/down.html'})
     .when('/about', {title:'about',templateUrl : '/partials/about.html'})
@@ -247,57 +245,15 @@ function errorInterceptor($q, scope, $location, $timeout) {
 
 
 //
-// boostrap mobile app
-function cordovaReady() {
-  return function (fn) {
-    var queue = [];
-
-    var impl = function () {
-      queue.push(Array.prototype.slice.call(arguments));
-    };
-
-    document.addEventListener('deviceready', function () {
-      queue.forEach(function (args) {
-        fn.apply(this, args);
-      });
-      impl = fn;
-    }, false);
-
-    return function () {
-      return impl.apply(this, arguments);
-    };
-  };
-}
-
-
-//
 // init the module
-appRun.$inject=['gitHubContent', '$templateCache', '$route', '$http','$timeout', 'config'];
-function appRun(gitHubContent, $templateCache, $route, $http, $timeout, config) {
-  gitHubContent.initialize({
-        root:'page', // specify the prefix route of your content
-        githubRepo:config.github.repo,
-        githubToken:config.github.token
-    });
-
+appRun.$inject=['$templateCache', '$route', '$http','$timeout', 'config'];
+function appRun($templateCache, $route, $http, $timeout, config) {
 
   // special setup that depends on config 
-  config.shop.then(function () {
-      // config stripe here
-      var pk=config.shop.keys&&config.shop.keys.pubStripe||'pk_test_PbzvxL5vak34c2GvSFqUXEac';
-
-      //
-      // loading Stripe
-      window.Stripe.setPublishableKey(pk);
-
-      // basket.ready('app').then(function() {
-      // })
-
+  config.shared.then(function () {
       // init uploadcare key here
-      config.uploadcare=config.shop.keys.pubUpcare;
-      uploadcare.start({ publicKey: config.uploadcare, maxSize:153600});  
-
-
+      // config.uploadcare=config.shop.keys.pubUpcare;
+      // uploadcare.start({ publicKey: config.uploadcare, maxSize:153600});  
   });
 
 
@@ -311,62 +267,6 @@ angular.element(document).ready(function () {
   // loading fastclick for mobile tap
   FastClick.attach(document.body);
 
-
-  //
-  // loading leafletjs and the directive
-  // $script(["//cdn.leafletjs.com/leaflet-0.7/leaflet.js",
-  //      "//rawgithub.com/tombatossals/angular-leaflet-directive/master/dist/angular-leaflet-directive.min.js"],
-  //      "leaflet");
-
-
-
-
-  //
-  // firefox security
-  // $script(["https://login.persona.org/include.js"],"persona");
-
-
-  if(!window.btoa){
-    window.btoa = function(str, utf8encode) {  // http://tools.ietf.org/html/rfc4648
-      utf8encode =  (typeof utf8encode == 'undefined') ? false : utf8encode;
-      var o1, o2, o3, bits, h1, h2, h3, h4, e=[], pad = '', c, plain, coded;
-      var b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-       
-      plain = utf8encode ? Utf8.encode(str) : str;
-      
-      c = plain.length % 3;  // pad string to length of multiple of 3
-      if (c > 0) { while (c++ < 3) { pad += '='; plain += '\0'; } }
-      // note: doing padding here saves us doing special-case packing for trailing 1 or 2 chars
-       
-      for (c=0; c<plain.length; c+=3) {  // pack three octets into four hexets
-        o1 = plain.charCodeAt(c);
-        o2 = plain.charCodeAt(c+1);
-        o3 = plain.charCodeAt(c+2);
-          
-        bits = o1<<16 | o2<<8 | o3;
-          
-        h1 = bits>>18 & 0x3f;
-        h2 = bits>>12 & 0x3f;
-        h3 = bits>>6 & 0x3f;
-        h4 = bits & 0x3f;
-
-        // use hextets to index into code string
-        e[c/3] = b64.charAt(h1) + b64.charAt(h2) + b64.charAt(h3) + b64.charAt(h4);
-      }
-      coded = e.join('');  // join() is far faster than repeated string concatenation in IE
-      
-      // replace 'A's from padded nulls with '='s
-      coded = coded.slice(0, coded.length-pad.length) + pad;
-       
-      return coded;
-    };  
-  }
-
-  Date.prototype.daysInMonth=function(month) {
-    //var y=this.getFullYear(), m=(month||this.getMonth())
-    //return /8|3|5|10/.test(m)?30:m==1?(!(y%4)&&y%100)||!(y%400)?29:28:31;
-    return new Date(this.getFullYear(), (month||this.getMonth())+1, 0).getDate();
-  };  
 
   //console.log(window.Showdown.extensions)
   angular.bootstrap(document, ['app']);

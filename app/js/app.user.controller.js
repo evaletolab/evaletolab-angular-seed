@@ -3,68 +3,47 @@
 //
 // Define the User module (app.user)  for controllers, services and models
 // the app.user module depend on app.config and take resources in account/*.html
-var User=angular.module('app.user', 
-  ['app.config','app.ui.map','app.user.ui','postfinance.card']);
+var User=angular.module('app.user', ['app.config','app.user.ui'])
+  .config(userConfig)
+  .controller('AccountCtrl',AccountCtrl);
 
 //
-// define all routes for user api
-User.config([
-  '$routeProvider',
-  '$locationProvider',
-  '$httpProvider',
+// user route configuration
+userConfig.$inject=['$routeProvider', '$locationProvider', '$httpProvider'];
+function userConfig ($routeProvider, $locationProvider, $httpProvider) {
+  // List of routes of the application
+  $routeProvider
+    // Authentication
+    .when('/auth', {redirectTo : '/auth/login'})
+    .when('/signup', {title:'Créer votre compte', _view:'main', templateUrl : '/partials/account/signup.html'})
+    .when('/login', {title:'Login', _view:'main', templateUrl : '/partials/account/login.html'})
+    .when('/validate/:id/:email', {title:'Email Validation', templateUrl : '/partials/account/validate.html'})
+    .when('/recovery', { _view:'main', templateUrl : '/partials/account/recovery.html'})
 
-  function ($routeProvider, $locationProvider, $httpProvider) {
+    // Account
+    // `auth : true` is a custom value passed to current route
+    .when('/account', {title:'Votre profil', _view:'main',redirectTo : '/account/overview'})
+    .when('/account/', {title:'Votre profil', _view:'main', redirectTo : '/account/overview'})
+    .when('/account/love', {_view:'main', love:true, templateUrl : '/partials/product/love.html'})
+    .when('/account/shop', {_view:'main', templateUrl : '/partials/account/shop.html'})
+    .when('/account/payment', {_view:'main', templateUrl : '/partials/account/payment.html'})
+    .when('/account/orders', {_view:'main', templateUrl : '/partials/account/orders.html'})
+    .when('/account/overview', {auth : true, _view:'main', templateUrl : '/partials/account/overview.html'})
+    .when('/account/wallet', {auth : true, _view:'main', templateUrl : '/partials/account/wallet.html'})
+    .when('/account/wallet/create', {auth : true, _view:'main', templateUrl : '/partials/account/wallet-create.html'})
+    .when('/account/password', {auth : true, _view:'main', templateUrl : '/partials/account/password.html'})
+    .when('/account/profile', {auth : true, _view:'main', templateUrl : '/partials/account/profile.html'})
+    .when('/account/signup', {view:'main', templateUrl : '/partials/account/profile.html'})
 
-    // List of routes of the application
-    $routeProvider
-      // Authentication
-      .when('/auth', {redirectTo : '/auth/login'})
-      .when('/signup', {title:'Créer votre compte', _view:'main', templateUrl : '/partials/account/signup.html'})
-      .when('/login', {title:'Login', _view:'main', templateUrl : '/partials/account/login.html'})
-      .when('/validate/:id/:email', {title:'Email Validation', templateUrl : '/partials/account/validate.html'})
-      .when('/recovery', { _view:'main', templateUrl : '/partials/account/recovery.html'})
-
-      // Account
-      // `auth : true` is a custom value passed to current route
-      .when('/account', {title:'Votre profil', _view:'main',redirectTo : '/account/overview'})
-      .when('/account/', {title:'Votre profil', _view:'main', redirectTo : '/account/overview'})
-      .when('/account/love', {_view:'main', love:true, templateUrl : '/partials/product/love.html'})
-      .when('/account/shop', {_view:'main', templateUrl : '/partials/account/shop.html'})
-      .when('/account/payment', {_view:'main', templateUrl : '/partials/account/payment.html'})
-      .when('/account/orders', {_view:'main', templateUrl : '/partials/account/orders.html'})
-      .when('/account/overview', {auth : true, _view:'main', templateUrl : '/partials/account/overview.html'})
-      .when('/account/wallet', {auth : true, _view:'main', templateUrl : '/partials/account/wallet.html'})
-      .when('/account/wallet/create', {auth : true, _view:'main', templateUrl : '/partials/account/wallet-create.html'})
-      .when('/account/password', {auth : true, _view:'main', templateUrl : '/partials/account/password.html'})
-      .when('/account/profile', {auth : true, _view:'main', templateUrl : '/partials/account/profile.html'})
-      .when('/account/signup', {view:'main', templateUrl : '/partials/account/profile.html'})
-
-      .when('/admin/user', {title:'Admin of users ', templateUrl : '/partials/admin/user.html'});
-  }
-]);
+    .when('/admin/user', {title:'Admin of users ', templateUrl : '/partials/admin/user.html'});
+}
 
 
 //
-// Define the application level controllers
-// the AccountCtrl is used in account/*.html
-User.controller('AccountCtrl',[
-  'config',
-  '$scope',
-  '$location',
-  '$rootScope',
-  '$routeParams',
-  'api',
-  'user',
-  'Map',
-  'Cards',
-  'shop',
-  '$timeout',
-  '$http',
-
-  function (config, $scope, $location, $rootScope, $routeParams, api, user, Map, Cards, shop, $timeout, $http) {
-    $scope.map=new Map();
+// user controller
+AccountCtrl.$inject=['config','$scope','$location','$rootScope','$routeParams','api','user','$timeout','$http'];
+function AccountCtrl (config, $scope, $location, $rootScope, $routeParams, api, user, $timeout, $http) {
     $scope.user=user;
-    $scope.Cards=Cards;
     $scope.config=config;
     $scope.reg={};
     $scope.users=[];
@@ -89,12 +68,6 @@ User.controller('AccountCtrl',[
 
     // default model for modal view
     $scope.modal = {};
-
-    if($routeParams.gift!==undefined){
-      $scope.options.showWallet=true;
-      $scope.number=$routeParams.gift;
-    }
-
 
     $scope.applyTableFilter=function (action) {
       var options=$scope.options;
@@ -127,13 +100,6 @@ User.controller('AccountCtrl',[
       });
     };
 
-    //
-    // check and init the session
-    user.me(function(u){
-      $scope.user = u;
-      angular.extend($scope,user.geo.getMap());
-    });
-
     $scope.modalUserDetails=function(user){
       $scope.modal=user;
       $scope.invoice_name=user.email.address;
@@ -141,14 +107,6 @@ User.controller('AccountCtrl',[
 
     $scope.modalDissmiss=function(){
       var modal=$scope.modal;
-      // for (var i=0;i<$scope.users.length;i++){
-      //   if($scope.users[i].id===modal.id){
-      //     $scope.users[i].email.status=modal.email.status;
-      //     $scope.users[i].invoice=modal.invoice;
-      //     $scope.users[i].merchant=modal.merchant;
-      //   }
-      // }
-
       $scope.modal = {};
       $scope.findAllUsers();
     };
@@ -185,19 +143,13 @@ User.controller('AccountCtrl',[
         //
         // admin collect food
         if(user.isAdmin()){
-          return $location.url('/admin/collect');
+          // return $location.url('/admin/collect');
         }
 
         //
         // user is a shopper 
         if(user.hasRole('logistic')){
-          return $location.url('/admin/shipping');
-        }
-
-        //
-        // user manage his shop
-        if(user.shops.length){
-          return $location.url('/admin/orders');
+          // return $location.url('/admin/shipping');
         }
 
 
@@ -255,17 +207,6 @@ User.controller('AccountCtrl',[
       });
     };
 
-    //
-    // create a new shop
-    $scope.createShop=function(s){
-      $rootScope.WaitText="Waiting ...";
-      shop.create(user,s,function(){
-          api.info($scope,"Votre boutique à été créée ",function(){
-            if ($scope.activeNavId==='/account/shop')
-              $location.url('/account/overview');
-          });
-      });
-    };
 
 
     //
@@ -295,107 +236,6 @@ User.controller('AccountCtrl',[
       return;
 
     };
-    $scope.persona=function(provider){
-      navigator.id.get(function (assertion) {
-        $http.post(provider.url, {assertion:assertion})
-          .then(function (responce) {
-            user.me(function(u){
-              $scope.FormErrors=false;
-              var home=(u.email&&u.email.status===true)?
-                '/products':'/account/profile';
-              $location.url(home);
-            });
-         },function(error){
-          api.info($scopeor);
-         });
-      });
-    };
-
-
-    $scope.addPaymentMethod=function(name,number,csc,expiry){
-      $rootScope.WaitText="Waiting ...";
-    if(!expiry){
-      $rootScope.WaitText=false;
-      return api.info($scope,"Date non valide!");
-    }
-    if(!csc){
-      $rootScope.WaitText=false;
-      return api.info($scope,"CVC non valide!");
-    }
-      Stripe.card.createToken({
-        name:name,
-        number: number,
-        cvc: csc,
-        exp_month: expiry.split('/')[0],
-        exp_year: expiry.split('/')[1]
-      }, function (status, response) {
-        if(response.error){
-          $rootScope.WaitText=false;
-          return api.info($scope,response.error.message);
-        }
-        //
-        // response.id
-        user.addPaymentMethod({
-          id:response.id,
-          name:response.card.name,
-          issuer:response.card.brand.toLowerCase(),
-          number:'xxxx-xxxx-xxxx-'+response.card.last4,
-          expiry:response.card.exp_month+'/'+response.card.exp_year
-        },function(u){
-          api.info($scope,"Votre méthode de paiement a été enregistrée");
-          $rootScope.WaitText=false;
-          $scope.options.showCreditCard=false;
-          $scope.user.payments=u.payments;
-        });
-
-      });      
-    };
-
-    $scope.hasMethod=function  (u,issuer) {
-      if(u.payments)for (var i = u.payments.length - 1; i >= 0; i--) {
-        if((issuer||'').indexOf(u.payments[i].issuer.toLowerCase())!==-1)return true;
-      }
-      return false;
-    };
-
-    $scope.addInvoiceMethod=function  (name,expiry,uid) {
-      //
-      // response.id
-      user.addPaymentMethod({
-        name:name,
-        issuer:'invoice',
-        expiry:expiry
-      },uid, function(u){
-        api.info($scope,"Votre méthode de paiement a été enregistrée");
-
-      });    
-    };
-
-
-    $scope.checkPaymentMethod=function(){
-      $rootScope.WaitText="Waiting ...";
-      $scope.methodStatus={};
-      user.$promise.then(function () {
-        user.checkPaymentMethod(function(methodStatus){
-          $scope.methodStatus=methodStatus;
-        });
-      });
-    };
-
-    $scope.deletePaymentMethod=function(alias,uid){
-      $rootScope.WaitText="Waiting ...";
-      user.deletePaymentMethod(alias,uid,function(u){
-        api.info($scope,"Votre méthode de paiement a été supprimé");
-      });
-    };
-
-
-    $scope.ecommerceForm=function(){
-      $rootScope.WaitText="Waiting ...";
-      user.pspForm(function(u){
-        
-      });
-    };
 
     $scope.updateStatus=function(id,status){
       $rootScope.WaitText="Waiting ...";
@@ -405,78 +245,12 @@ User.controller('AccountCtrl',[
     };
 
 
-    // Functions
-    // Open a popup to authenticate users with Auth, and redirect to account page on success
-    $scope.authenticate = function (provider, w, h) {
-      // default values for parameters
-      w = w || 400;
-      h = h || 350;
 
-      var url = provider.url,
-        left = (screen.width / 2) - (w / 2),
-        top = (screen.height / 2) - (h / 2),
-        targetWin = window.open(url, 'authWindow', 'toolbar=no, location=1, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
-      function tick() {
-        var p = targetWin.location;
-          if (!p||p===undefined)return;
-          //
-          // simple check of session
-          user.me(function(u){
-            targetWin.close();
-            $scope.FormErrors=false;
-            var home=(u.email&&u.email.status===true)?
-              '/products':'/account/profile';
-            $location.url(home);
-          },function(e){
-            // still not connected
-            $scope.FormErrors=('Wainting...');
-            $timeout(tick, 2000);
-          });
-
-      }
-      $timeout(tick, 3000);
-
-    };
-
-    //
-    // geomap init
-    $scope.updateMap=function(address){
-      if (address.streetAdress===undefined||address.postalCode===undefined)
-       return;
-
-      user.geo.geocode(address.streetAdress, address.postalCode, address.country, function(geo){
-        if(!geo.results.length||!geo.results[0].geometry){
-         return;
-        }
-        //
-        //update data
-        address.geo={};
-        address.geo.lat=geo.results[0].geometry.location.lat;
-        address.geo.lng=geo.results[0].geometry.location.lng;
-        //
-        // map init
-        var fullAddress=address.streetAdress+'/'+address.postalCode;
-        user.geo.addMarker(user.addresses.length, {lat:address.geo.lat,lng:address.geo.lng, message:fullAddress});
-        //angular.extend($scope,user.geo.getMap());
-
-      });
-    };
+   
 
 
+}
 
-    // if(user.geo && user.addresses){
 
-    //   user.addresses.forEach(function(address,i){
-    //     if (address.geo)
-    //     user.geo.addMarker(i,{
-    //       lat:address.geo.lat,
-    //       lng:address.geo.lng,
-    //       message:address.streetAdress+'/'+address.postalCode
-    //     });
-    //   })
-    //   angular.extend($scope,user.geo.getMap());
-    // } else angular.extend($scope,new Map().getMap());
-  }
-]);
 
 })(window.angular);

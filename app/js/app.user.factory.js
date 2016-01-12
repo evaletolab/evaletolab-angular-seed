@@ -8,8 +8,8 @@ angular.module('app.user')
 
 //
 // define dependency injection and implement servie
-userFactory.$inject=['config','$location','$rootScope','$route','$resource','$log','$q','api','shop','Map'];
-function userFactory(config, $location, $rootScope, $route, $resource, $log, $q, api, shop, Map) {
+userFactory.$inject=['config','$location','$rootScope','$route','$resource','$log','$q','api'];
+function userFactory(config, $location, $rootScope, $route, $resource, $log, $q, api) {
   var defaultUser = {
     id: '',
     name: {
@@ -19,7 +19,6 @@ function userFactory(config, $location, $rootScope, $route, $resource, $log, $q,
     photo:config.user.photo,
     email: {},
     roles: [],
-    shops: [],
     provider: '',
     url: '',
     phoneNumbers:[{what:'mobile'}],
@@ -194,7 +193,7 @@ function userFactory(config, $location, $rootScope, $route, $resource, $log, $q,
     var self=this;
     return this.chain(backend.$user.get({id:'me'}, function(_u,headers) {
         self.wrap(_u);
-        self.shops=shop.wrapArray(self.shops);
+        // self.shops=shop.wrapArray(self.shops);
 
         //
         // init
@@ -212,64 +211,6 @@ function userFactory(config, $location, $rootScope, $route, $resource, $log, $q,
       }
     }).$promise
     );
-  };
-
-
-  User.prototype.updateGeoCode=function () {
-    var promises=[], dirty=false, self=this;
-    // check state
-    if(self.geo){
-      return;
-    }
-    if(self.addresses.length===0||self.addresses.length && self.addresses[0].geo && self.addresses[0].geo.lat){
-      return;
-    }
-
-    //
-    // get geo lt/lng
-    if(!self.geo)self.geo=new Map();
-
-
-    self.addresses.forEach(function(address,i){
-      // address is correct
-      if(address.geo&&address.geo.lat&&address.geo.lng){
-        return;
-      }
-
-      promises.push(self.geo.geocode(address.streetAdress, address.postalCode, address.country, function(geo){
-        if(!geo.results.length||!geo.results[0].geometry){
-         return;
-        }
-        if(!geo.results[0].geometry.lat){
-          return;
-        }
-
-        //
-        //update data
-        address.geo={};
-        address.geo.lat=geo.results[0].geometry.location.lat;
-        address.geo.lng=geo.results[0].geometry.location.lng;
-
-        //
-        //setup marker
-        self.geo.addMarker(i,{
-          lat:address.geo.lat,
-          lng:address.geo.lng,
-          message:address.streetAdress+'/'+address.postalCode
-        });
-
-
-        dirty=true;
-      }));// end of promise
-    }); // end of forEach
-
-    // should we save the user?
-    $q.all(promises).finally(function () {
-      $log('save user geo map',dirty);
-      if(dirty)self.save();
-    });
-
-
   };
 
 

@@ -9,30 +9,20 @@ angular.module('app.root', ['app.config','app.user'])
 //
 // the AppCtrl is used in index.html (see app/assets/index.html)
 appCtrl.$inject=[
-  '$scope','$rootScope','$window','$location','$routeParams','$timeout','$http','config','api','user','cart','category','product','shop','document'];
-function appCtrl($scope, $rootScope, $window,  $location, $routeParams, $timeout, $http, config, api, user, cart, category, product,shop,document) {
+  '$scope','$rootScope','$window','$location','$routeParams','$timeout','$http','config','api','user'];
+function appCtrl($scope, $rootScope, $window,  $location, $routeParams, $timeout, $http, config, api, user) {
 
   $rootScope.user=$scope.user = user;
-  $scope.cart = cart;
-  $scope.categories = [];
   $scope.config=config;
   $scope.api=api;
-  $scope.cover=config.cover;        
   $scope.browserName;
-  $scope.userDocuments;
   window.referrers=[];
 
 
   $scope.options={
-    cart:false,
-    sidebar:false,
-    wellSubscribed:false,
     needReload:false
   };
 
-  //
-  // export shops context for all Ctrl
-  $scope.shops=$scope.shopsSelect=shop.query({});
 
   //
   // welcome page
@@ -59,17 +49,7 @@ function appCtrl($scope, $rootScope, $window,  $location, $routeParams, $timeout
     $scope.options.needReload=true;
   },86400000*2);
   
-  //
-  // get categories
-  category.select({stats:true},function(categories){
-    $scope.category=category;
-  });
 
-  //
-  // load campaign data
-  $http.get(config.API_SERVER+'/v1/wallets/giftcard/count').then(function (result) {
-    $scope.campaign=result.data;
-  });
 
   //
   // clear cache
@@ -83,8 +63,6 @@ function appCtrl($scope, $rootScope, $window,  $location, $routeParams, $timeout
   //
   // get the head title up2date 
   $rootScope.$on('$routeChangeStart', function (event, current, previous) {
-    $scope.options.cart=false;
-    $scope.options.sidebar=false;
     var longpath=$location.path();
     user.$promise.finally(function(){
       if (!user.isAuthenticated()){
@@ -95,53 +73,12 @@ function appCtrl($scope, $rootScope, $window,  $location, $routeParams, $timeout
         }
       }
 
-      var title="Karibou.ch Genève - le bon goût du marché en ligne";
+      var title="Hello --- :)";
       $rootScope.title = (current.$$route.title)?current.$$route.title:title;
 
     });
   });
 
-
-
-  // Uses the url to determine if the selected
-  // menu item should have the class active.
-  $rootScope.$watch(function(){return $location.url();}, function (path, old) {
-    $scope.activeNavId = path || '/';
-
-    //
-    // save the referer FIXME path or url??
-    window.referrer=$rootScope.referrer=(path!== old)?old:undefined;
-    if(window.referrer){
-      window.referrers.push(window.referrer);
-      if(window.referrers.length>2){
-        window.referrers.shift();
-      }
-    }
-  });
-
-  $scope.showShopWidgets=function () {
-    var currentPath=$location.path();
-  
-    //
-    // if referer is in protected path?
-    if(_.find(config.avoidShopUIIn,function(path){
-        return (currentPath.indexOf(path)!==-1);})){
-      return false;
-    }
-    return true;
-  };
-
-
-  //
-  // welcome click 
-  $scope.onWelcome=function () {
-    // TODO use of localstorage to replace cookie5
-    // avoid lander page on email validation
-    // $scope.options.welcome=$cookies.welcome=true;
-    // var localStorage=$window['localStorage'];
-    // $location.path('/')
-    $scope.locationReferrer('/');
-  };
 
   $scope.subscribe=function (user, subject) {
     var content={
@@ -185,26 +122,10 @@ function appCtrl($scope, $rootScope, $window,  $location, $routeParams, $timeout
   };
 
 
-  //
-  // this is an helper for avoid the default sorting by ng-repeat
-  $scope.keys=function(map){
-    if(!map){return [];}
-    return Object.keys(map);
-  };
 
 
   $rootScope.locationReferrer=function(defaultUrl){
     $location.path($rootScope.referrer?$rootScope.referrer:defaultUrl);
-  };
-
-
-
-  $rootScope.showMenuOnSwipe=function(){
-    //$('nav.site-nav').click();
-  };
-
-  $rootScope.hideMenuOnSwipe=function(){
-    //$('nav.site-nav').click();
   };
 
 
@@ -219,6 +140,7 @@ function appCtrl($scope, $rootScope, $window,  $location, $routeParams, $timeout
         $location.search(k, t);
     });
   };
+
 
   $scope.getToggleClass=function(key,value, clazz){
     if(!clazz){clazz='active';}
@@ -250,37 +172,6 @@ function appCtrl($scope, $rootScope, $window,  $location, $routeParams, $timeout
  
 
 
-  $scope.getCover=function(){
-    $scope.cover=config.cover;        
-    var template='/partials/cover.html';
-
-
-    if ($routeParams.category){
-       var c=category.findBySlug($routeParams.category);
-       if(c&&c.cover) {$scope.cover=c.cover;}
-       template='/partials/product/cover.html';
-    }
-
-    if(user.isAuthenticated())
-      template='/partials/account/cover.html';
-
-
-    return template;
-  };
-
-  $scope.showOverview=function(){
-    $location.path('/account/overview');
-  };
-
-  $scope.showOrder=function(){
-    $location.path('/account/orders');
-
-  };
-
-  $scope.showLove=function(){
-    $location.path('/account/love');
-  };
-
   //
   // logout (global function)
   $scope.logout=function(){
@@ -300,27 +191,7 @@ function appCtrl($scope, $rootScope, $window,  $location, $routeParams, $timeout
     });
   };
   
-  //
-  // the size of shop and product cart
-  $scope.getFormat=function(index){      
-    if (index===undefined) {return 'c2';}
-    return (!index)?"c3":"c2";
-  } ;   
-
-
-  $scope.toggleCart=function(sel){
-    $scope.options.cart=!$scope.options.cart;
-  };
   
-
-  $scope.addCart=function (item) {
-    cart.add(item, true);    
-  };
-
-  $scope.removeCart=function (item) {
-    cart.remove(item, true);
-  };
-
   $scope.uploadImageError=function(error){
       //http://ucarecdn.com/c1fab648-f6b7-4623-8070-798165df5ca6/-/resize/300x/
       if(error){
