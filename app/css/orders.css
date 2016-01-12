@@ -1,0 +1,148 @@
+.table td.shipping-date{
+  padding:0px;
+}
+
+.table td.shipping-date div{
+  -margin-left:-20px;
+  -padding: 8px;
+  -text-transform: uppercase;
+  background-color: white;
+  font-size: 18px;
+  font-weight: 800;
+  margin: 15px 0;  
+}
+
+div.shipping-date{
+  text-align: center;
+}
+
+.wizard{
+  background-color: white;
+  float: left;
+  width: 100%;
+  position: relative;
+}
+
+.wizard.login {
+  padding: 10px 30px;
+}
+
+.wizard.profile{
+  padding: 10px 10px;
+}
+
+.wizard h3{
+  margin-bottom: 20px;
+  padding-left: 0px;
+}
+
+.wizard input.ng-invalid {
+  border: 1px solid #a94442;
+  -webkit-box-shadow: 0px 0px 5px rgba(200, 0, 0, .35)
+     -moz-box-shadow: 0px 0px 5px rgba(200, 0, 0, .35);
+          box-shadow: 0px 0px 5px rgba(200, 0, 0, .35);
+}
+
+
+.label-price{
+  background-color: rgba(226, 223, 223, 0.39);
+  color: rgb(171, 170, 170);  
+  margin-right: -5px;
+}
+
+.wizard.login a.link{
+  position: absolute;
+  top: 5px;
+  right: 30px;  
+  padding: 4px;
+  background-color: white;
+}
+
+.list-group-item.list-group-item-active{
+  background-color: rgba(246, 227, 206, 0.9);
+}
+
+
+div.list-group-item{
+  margin: 5px;
+  padding: 15px 5px;  
+}
+
+
+table th.col-product{
+  width: 70%;
+}
+
+table.table  td.order-header  {
+  background-color: #fff;
+  color: #777;
+  font-weight: 300;
+  padding: 3px 5px;
+  text-shadow:0 0 1px rgba(4,4,4,0.1);
+  border-bottom: 5px solid #eee;
+  font-weight: bold;
+}
+
+table.table  td.order-header img{
+  border-radius: 5px;
+  border: 0px solid white;
+  width: 20px;
+  height: 20px;
+}
+
+table.table > tbody + tbody{
+  border:none; 
+}
+
+/* Desktop large
+------------------------- */
+@media (min-width: 980px) {
+
+}
+
+
+
+/* Desktop
+------------------------- */
+@media (max-width: 980px) {
+div.order-list-items{
+    position: absolute;
+    padding: 1px;
+    height: 100%;
+    background-color: white;
+}
+
+}
+
+/* Tablet to desktop
+------------------------- */
+@media (min-width: 768px) and (max-width: 979px) {
+
+}
+
+/* Tablet
+------------------------- */
+@media (max-width: 767px) {
+
+
+.wizard.login a.link{
+  position: relative;
+  font-weight: bold;
+  top:inherit;
+  right: inherit;
+}
+
+}
+
+/* Landscape phones
+------------------------- */
+@media (max-width: 550px) {
+
+
+}
+
+
+@media only screen and ( max-width: 320px ) /* 320px */{
+
+
+}

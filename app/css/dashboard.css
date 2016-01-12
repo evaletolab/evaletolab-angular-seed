@@ -1,0 +1,304 @@
+/*
+ * Base structure
+ */
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+.dashboard {
+  padding-top: 65px;
+}
+
+
+/*
+ * Global add-ons
+ */
+
+.dashboard .sub-header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  margin: 15px 0;
+}
+
+.dashboard .discount{
+  border: 1px solid red;
+  border-radius: 3px;  
+}
+
+.dashboard .progress-container{
+  border: 1px solid rgb(221, 221, 221);
+  padding: 0px;
+  margin-top: 0px;  
+}
+
+.dashboard .progress-bar-info {
+  background-color: rgba(91, 192, 222, 0.09);
+  color: inherit;
+  box-shadow: none;
+  white-space: nowrap; 
+  text-overflow: ellipsis;
+}
+
+.dashboard .progress-bar-danger {
+  background-color: rgba(217, 83, 79, 0.14);
+  color: inherit;
+  box-shadow: none;
+}
+
+.dashboard .bag-1{
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+.dashboard .bag-1.customer{
+  padding: 4px;
+  top: 0px;
+}
+
+.dashboard .bag-2{
+  position: absolute;
+  right: 10px;
+  bottom: 12px;  
+}
+
+.dashboard .input-group-addon{
+  padding: 3px 12px;
+}
+
+.dashboard .label-title{
+  background-color: white;
+  color: gray;
+  font-size: 60%;
+  font-family: sans-serif;
+  font-weight: 300;  
+  vertical-align:middle;
+}
+
+.dashboard form {
+}
+
+.dashboard form .btn{
+  margin: 0 5px 5px ;
+}
+
+
+/*
+ * Top navigation
+ * Hide default border to remove 1px line.
+ */
+.dashboard .navbar-fixed-top {
+  border: 0;
+  z-index: 1049;
+}
+
+.dashboard .panel-dashboard{
+  background-color:transparent;
+}
+
+.dashboard .panel-default{
+  position: fixed;
+  top:55px;
+  left: 0;
+  right: 0;
+  border-radius: 0;
+  margin-top: 0px;
+  margin-bottom: 10px;  
+  z-index: 1048;
+}
+
+.dashboard .panel-heading{
+  padding:0;
+}
+
+.dashboard .navbar-dashboard{
+  background-color: transparent;
+  border: 0px; 
+  margin: 0px 3px -0px 3px; 
+}
+
+
+.dashboard .navbar-dashboard .container-fluid,
+.dashboard .navbar-dashboard .collapse.navbar-collapse {
+  padding: 0;
+}
+
+.dashboard .navbar-default .navbar-nav > .active > a{
+  font-weight: bold;
+}
+
+.dashboard .navbar-dashboard .collapse.in ul.nav,
+.dashboard .navbar-dashboard .collapse.in form.navbar-form{
+  margin: 5px;
+}
+
+.dashboard .container-content{
+  position: absolute;
+  top: 130px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;  
+}
+.dashboard .container-scroll{
+  overflow-y: auto;
+  height: 100%;
+}
+.dashboard .container-scroll:last-child{
+  top: 0px;
+}
+
+
+/*
+ * Sidebar
+ */
+
+/* Hide for mobile, show later */
+.dashboard .sidebar {
+  margin-left:0;
+  -webkit-transition:margin-left .4s ease-out,left .4s ease-out,opacity .4s ease-out;
+     -moz-transition:margin-left .4s ease-out,left .4s ease-out,opacity .4s ease-out;
+      -ms-transition:margin-left .4s ease-out,left .4s ease-out,opacity .4s ease-out;
+       -o-transition:margin-left .4s ease-out,left .4s ease-out,opacity .4s ease-out;
+          transition:margin-left .4s ease-out,left .4s ease-out,opacity .4s ease-out;
+}
+
+.dashboard .sidebar {
+  position: fixed;
+  top: 51px;
+  bottom: 0;
+  left: 0;
+  z-index: 1000000;
+  display: block;
+  padding: 20px;
+  overflow-x: hidden;
+  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+  background-color: #f5f5f5;
+  border-right: 1px solid #eee;
+}
+
+
+.dashboard .menu-off {
+  margin-left: -66.5%;
+}
+
+@media (min-width: 768px) {
+}
+
+/* Sidebar navigation */
+.dashboard .nav-sidebar {
+  margin-right: -21px; /* 20px padding + 1px border */
+  margin-bottom: 20px;
+  margin-left: -20px;
+}
+.dashboard .nav-sidebar > li > a {
+  padding:2px 0px 0 10px;
+}
+.dashboard .nav-sidebar > .active > a,
+.dashboard .nav-sidebar > .active > a:hover,
+.dashboard .nav-sidebar > .active > a:focus {
+  color: #fff;
+  background-color: #428bca;
+}
+
+.dashboard .nav-sidebar li.nav-shop a{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 90%;
+}
+
+/*
+ * Main content
+ */
+
+.dashboard .main {
+  padding: 10px;
+}
+@media (min-width: 768px) {
+  .dashboard .main {
+  }
+}
+
+.dashboard .main .page-header {
+  margin-top: 10px;
+  color: #888;
+  padding-bottom: 10px;
+}
+
+
+/*
+ * Placeholder dashboard ideas
+ */
+
+.dashboard .placeholders {
+  margin-bottom: 30px;
+  text-align: center;
+}
+.dashboard .placeholders h4 {
+  margin-bottom: 0;
+}
+.dashboard .placeholder {
+  margin-bottom: 20px;
+}
+.dashboard .placeholder img {
+  display: inline-block;
+  border-radius: 50%;
+}
+
+.dashboard .nav-sidebar h5{
+    color: #888;
+    font-weight: 700;
+    padding: 10px;
+    margin-top: 10px;
+    text-transform: uppercase;
+}  
+
+
+.dashboard .repport{
+  border: 1px solid #ddd;
+  background-color: white;
+  padding:50px; 
+  font-size: 85%;
+}
+
+.dashboard .repport address{
+  margin-left: 60%;
+  margin-bottom: 100px;
+}
+
+.dashboard .repport address.karibou{
+  margin-left: 0px;
+  vertical-align: middle;
+}
+
+.dashboard .repport address.karibou img{
+  width: 27px;
+}
+
+.dashboard .repport table.resume{
+  margin-top: 50px;
+  margin-bottom: 80px;
+}
+
+.dashboard .repport p{
+}
+
+.dashboard .repport table.items{
+  font-size: 80%;
+}
+
+.dashboard .repport table .repport-last{
+  border-top: 2px solid black;
+}
+
+.dashboard .repport table .repport-separator{
+  border-top: 2px solid #aaa;
+}
+
+.dashboard .repport h4{
+  margin-top: 50px;
+}
+
+@media print {
+  .dashboard .repport{
+    border: none;
+    padding:5px; 
+  }
+}
