@@ -18,11 +18,11 @@ angular.module('app', [
   'ngSanitize',
   'ngTouch',
   'ngAnimate',
-  'ngUploadcare',
   'pascalprecht.translate',
   'infinite-scroll',
   'flash',
   'angular.filter',
+  'ngUploadcare',
   'app.templates',
   'app.config',
   'app.storage',
@@ -156,6 +156,11 @@ function appConfig( $provide, $routeProvider, $locationProvider, $httpProvider,$
   // i18n
 
   $translateProvider.translations('en', {
+    sitemessage:'Home page message',
+    siteabout:'About the site',
+    sitetitle:'Site tagline',
+    sitename:'Site name',
+    hello: 'Hello',
     logout: 'Logout',
     login: 'Login',
     signup: 'Signup',
@@ -168,9 +173,17 @@ function appConfig( $provide, $routeProvider, $locationProvider, $httpProvider,$
     allpubli:'My publications',
     security:"Security",
     password:"Change password",
-    profile:"Update profile"
+    profile:"Update profile",
+    furthermore:"Furthermore",
+    formlogintitle:'Have an account ?',
+    formlogincreate:'Or create an account?'
   });
   $translateProvider.translations('fr', {
+    sitemessage:'Message sur la home du site',
+    siteabout:'A propos du site',
+    sitetitle:'Titre du site',
+    sitename:'Nom du site',
+    hello:'Bonjour',
     logout: 'Logout',
     login: 'Connexion',
     signup: 'S\'inscrire',
@@ -183,7 +196,10 @@ function appConfig( $provide, $routeProvider, $locationProvider, $httpProvider,$
     allpubli:"Mes publications",
     security:"Sécurité",
     password:"Modifier mon mot de passe",
-    profile:"Mes données personnelles"
+    profile:"Mes données personnelles",
+    furthermore:"A lire aussi",
+    formlogintitle:'Vous avez déjà un compte ?',
+    formlogincreate:'Ou créer un compte?'
   });
 
   $translateProvider.preferredLanguage('fr');

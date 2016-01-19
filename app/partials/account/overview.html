@@ -11,7 +11,7 @@
     <div class="col-md-9" >
       <!-- PROFILE -->
       <h4 class="page-header">
-        <span class=""><i class="fa fa-edit gray"></i>&nbsp;Mon profil</span>
+        <span class=""><i class="fa fa-edit gray"></i>&nbsp;<span translate="hello">Bonjour</span> {{user.display()}}</span>
       </h4>
 
       <div class="alert alert-warning" ng-cloak  ng-show="user.email.status !== true">
@@ -22,15 +22,15 @@
 
 
       <!-- LE SITE -->
-      <div class="clearfix" >
-        <h4 class="page-header"><i class="fa fa-edit gray"></i>&nbsp;Nom du site</h4>
+      <div class="clearfix" ng-if="user.isAdmin()">
+        <h4 class="page-header"><i class="fa fa-edit gray"></i>&nbsp;<span translate="sitename"></span></h4>
         <div class="form-group ">                        
           <div class="form-group ">                        
               <input type="text" class="form-control input-lg" ng-model="config.shared.home.siteName[locale()]" />
           </div>
         </div>
 
-        <h4 class="page-header"><i class="fa fa-edit gray"></i>&nbsp;Titre du site</h4>
+        <h4 class="page-header"><i class="fa fa-edit gray"></i>&nbsp;<span translate="sitetitle"></span></h4>
         <div class="form-group ">                        
           <div class="form-group ">                        
               <input type="text" class="form-control input-lg" ng-model="config.shared.home.tagLine[locale()]" />
@@ -38,7 +38,7 @@
         </div>
 
         <!-- ABOUT -->
-        <h4 class="page-header"><i class="fa fa-edit gray"></i>&nbsp;A propos du site</h4>
+        <h4 class="page-header"><i class="fa fa-edit gray"></i>&nbsp;<span translate="siteabout"></span></h4>
         <div class="form-group ">                        
           <div class="">
             <textarea  rows="4" class="form-control input-lg" ng-model="config.shared.home.about[locale()]" placeholder="A propos?"></textarea>            
@@ -77,7 +77,7 @@
 
         
         <!-- MAINTENANCE -->
-        <h4 class="page-header"><i class="fa fa-edit gray"></i>&nbsp;Message aux utilisateurs du site</h4>
+        <h4 class="page-header"><i class="fa fa-edit gray"></i>&nbsp;<span translate="sitemessage"></span></h4>
         <div class="form-group ">                        
           <label class="control-label">Information
             <input type="checkbox" ng-model="config.shared.maintenance.active">

@@ -21,14 +21,22 @@
 		<h1 i18n-render="doc.model.title"></h1>	
 		<h2 i18n-render="doc.model.header" class="header" 
 		 parse-markdown="true"></h2>
+
+		<div class="sidebar-block" ng-if="docs.length>1">
+			<h4 translate="furthermore"></h4>
+		  <ol  class="list-unstyled">
+		  	<li ng-repeat="other in docs|orderBy:'-title.fr'" ><a ng-href="/{{other.type}}/{{other.slug[0]}}" i18n-render="other.title"></a></li>
+		  </ol>		
+		</div> 
+
 	</div>    
+
   
   <div class="container text" 
   		 i18n-render="doc.model.content" 
   		 parse-markdown="true">
   	
   </div>
-
 
 </div>
 

@@ -92,8 +92,8 @@ function ConfigCtrl($scope,$resource,config,api,Flash){
       if(lst[i].name===menu.name){
         lst.splice(i, 1);
       }
-    };
-  }
+    }
+  };
 
   //
   // save stored config (admin only)

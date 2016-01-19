@@ -54,9 +54,9 @@ function docCtrl($scope,$rootScope, $routeParams, config, doc, feedback,user) {
 
   user.$promise.then(function () {
     user.documents=doc.my().models;
-  })
+  });
 
-  var api=$scope.api, user=$scope.user;
+  var api=$scope.api;
 
   $scope.isOwnerOrAdmin=function (doc) {
     return user.id===doc.owner||user.isAdmin();
@@ -96,12 +96,13 @@ function docCtrl($scope,$rootScope, $routeParams, config, doc, feedback,user) {
   
 
   $scope.findOneDocument=function () {
-    if(!$routeParams.slug){
-      doc.clear();
-      return;
+    if(!$routeParams.slug || !$routeParams.slug.length){
+      return doc.clear();
     }
+
     doc.get($routeParams.slug).model.$promise.then(function(){
-      $rootScope.title=doc.model.slug;
+      $rootScope.title=doc.model.title[$scope.locale()];
+      $scope.docs=doc.findByCategory(doc.model.type).models;      
 
     });
   };

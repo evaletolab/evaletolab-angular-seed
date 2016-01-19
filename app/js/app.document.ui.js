@@ -174,7 +174,6 @@ function i18nRender($rootScope,$compile,$timeout,$translate,config) {
       }
 
       scope.$watch('i18nRender', function (i18nRender) {
-        console.log(scope['i18nRender'])
         if (scope['i18nRender']) {
           $timeout(render,100);
           // scope.$parent.$watch(function () {
@@ -184,7 +183,7 @@ function i18nRender($rootScope,$compile,$timeout,$translate,config) {
       });
 
       // trigger rendering of translation
-      // $rootScope.$on('$translateChangeSuccess', render);
+      $rootScope.$on('$translateChangeSuccess', render);
       // config.shared.then(function (argument) {
       //   $timeout(render,100);
       // });

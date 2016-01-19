@@ -28,7 +28,7 @@ function appCtrl($scope, $rootScope, $window,  $location, $routeParams, $timeout
 
   $scope.locale=function () {
     return $scope.options.locale;
-  }
+  };
 
   $scope.changeLanguage = function (langKey) {
     $translate.use(langKey);
