@@ -9,8 +9,8 @@ angular.module('app.config', [])
 
 //
 // implement service
-appConfig.$inject=['$q','$resource','$sce','API_SERVER']; 
-function appConfig($q, $resource, $sce, API_SERVER) {
+appConfig.$inject=['$q','$http','$sce','API_SERVER']; 
+function appConfig($q, $http, $sce, API_SERVER) {
   var deferred = $q.defer();
   
   var defaultConfig = {
@@ -72,10 +72,8 @@ function appConfig($q, $resource, $sce, API_SERVER) {
   //
   // get server side config
   defaultConfig.shared=deferred.promise;
-  var serverSettings=$resource(defaultConfig.API_SERVER+'/v1/config').get(function(){
-      angular.extend(defaultConfig.shared,serverSettings);
-
-
+  $http.get(defaultConfig.API_SERVER+'/v1/config').then(function(response){
+      angular.extend(defaultConfig.shared,response.data);
       deferred.resolve(defaultConfig);
   });
 
@@ -85,16 +83,25 @@ function appConfig($q, $resource, $sce, API_SERVER) {
 
 //
 // implement config controller
-ConfigCtrl.$inject=['$scope','$resource','config','api'];
-function ConfigCtrl($scope,$resource,config,api){
+ConfigCtrl.$inject=['$rootScope','$resource','config','api','Flash'];
+function ConfigCtrl($scope,$resource,config,api,Flash){
   var $dao=$resource(config.API_SERVER+'/v1/config');
-  $scope.config=config;
+
+  $scope.menuSplice=function (lst, menu) {
+    for (var i = lst.length - 1; i >= 0; i--) {
+      if(lst[i].name===menu.name){
+        lst.splice(i, 1);
+      }
+    };
+  }
 
   //
   // save stored config (admin only)
   $scope.saveConfig=function(){
     $dao.save(config.shared,function(){
-      api.info($scope,"Configuration sauvée");
+      Flash.create('success', "Configuration sauvée");
+
+      // api.info($scope,"Configuration sauvée");
     });
   };
 

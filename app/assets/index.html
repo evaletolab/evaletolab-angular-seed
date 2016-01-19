@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" ng-controller="AppCtrl" class=" loading" ng-class="browser()">
+<html lang="fr" ng-controller="AppCtrl" class=" app-loading" ng-class="browser()">
   <head>
 
 <!--                    _        _          _         _     
@@ -35,13 +35,13 @@
     <!--[if lt IE 9]>
       <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
+    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|PT+Serif:400,700,400italic" rel="stylesheet" type="text/css">
 
     <link defer rel="stylesheet" href="/css/vendor.css?cache={!distRelease!}">
     <link defer rel="stylesheet" href="/css/app.css?cache={!distRelease!}">
     <base  href="/" />
     <script type="text/javascript">
-      KARIBOU_INSTANCE={!distRelease!};
+      CMS_INSTANCE={!distRelease!};
       UPLOADCARE_LIVE= false;
       UPLOADCARE_MANUAL_START = true;
     </script>
@@ -61,6 +61,12 @@
   </head>
 
    <body>
+    <div id="app-loading-wrapper" shown-when-loading=""> 
+      <div class="app-loading fa-spin fa fa fa-spinner"></div> 
+    </div>
+
+    <div id="flash" flash-message="5000" ></div>
+
     <!-- Fixed navbar -->
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
@@ -71,40 +77,35 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Karibou SEED</a>
+          <a class="navbar-brand ng-cloak" href="#">{{config.shared.home.siteName[locale()]}}</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li ng-class="getHomeClass()"><a href="/">Home</a></li>
-            <li ng-class="getClass('/about')"><a  href="/about">About</a></li>
-            <li ng-class="getClass('/contact')"><a href="/contact">Contact</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li role="separator" class="divider"></li>
-                <li class="dropdown-header">Nav header</li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more separated link</a></li>
-              </ul>
+            <li ng-class="getClass(menu.url)" ng-repeat="menu in config.shared.home.views|orderBy:'weight'">
+              <a  ng-href="{{menu.url}}" i18n-render="menu.name"></a>
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">          
             <li ng-hide="user.isAuthenticated()" ng-class="getClass('/login')">
-              <a  ng-href="/login"><i class="fa fa-user"></i>&nbsp;Login</a>
+              <a  ng-href="/login"><i class="fa fa-user"></i>&nbsp;<span translate="login">Login</span></a>
             </li>
             <li ng-hide="user.isAuthenticated()" ng-class="getClass('/signup')">
-              <a class=" " ng-href="/signup"><i class="fa fa-fire"> </i>&nbsp;Sign Up</a>
+              <a class=" " ng-href="/signup"><i class="fa fa-fire"> </i>&nbsp;<span translate="signup"></span></a>
             </li>
 
             <!-- SIGNED -->
-            <li ng-show="user.isAuthenticated()" ng-class="getClass('/account/overview')">
+            <li ng-show="user.isAuthenticated()" class="ng-cloak" ng-class="getClass('/account','/admin')">
               <a   ng-href="/account/overview" ><i class="fa fa-wrench green"></i>&nbsp;@{{user.display()}}</a>
             </li>
             <li ng-show="user.isAuthenticated()">
-              <a  class="" href="" ng-click="logout()"><i class="fa fa-sign-out green"></i>&nbsp;logout</a>
+              <a  class="" href="" ng-click="logout()"><i class="fa fa-sign-out green"></i>&nbsp;<span translate="logout"></span></a>
+            </li>
+            <!-- I18N -->
+            <li class="dropdown ng-cloak" >
+              <a href="#" class="dropdown-toggle text-capitalize" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{locale()}} <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li ng-repeat="lang in config.shared.i18n.locales" class="text-capitalize"><a href="#" ng-click="changeLanguage(lang)" >{{lang}}</a></li>
+              </ul>
             </li>
           </ul>
         </div><!--/.nav-collapse -->
@@ -112,13 +113,13 @@
     </nav>
 
     <!-- Begin page content -->
-    <div class="container" ng-view>
+    <div class="ng-view" >
     </div>
 
-    <footer class="footer">
+    <footer class="footer ">
       <div class="container">
-        <p class="text-muted">Place sticky footer content here.</p>
-        <div ng-include="'/partials/feedback.html'"></div>
+        <div class="text-muted" i18n-render="config.shared.home.footer" parse-markdown="true"></div>
+        <div ng-include="'/partials/feedback.html'" class="hide"></div>
       </div>
     </footer>
    </body>

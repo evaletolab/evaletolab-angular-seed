@@ -5,9 +5,10 @@
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */
 (function ( window, angular, undefined ) {
-/*jshint globalstrict:true*/
+/*jshint globalstrict:false*/
 'use strict';
 
+/*jshint asi:true */
 var isDefined = angular.isDefined,
     isUndefined = angular.isUndefined,
     isFunction = angular.isFunction,

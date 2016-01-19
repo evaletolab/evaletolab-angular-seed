@@ -26,7 +26,7 @@ function FeedbackCtrl(config, $scope, $rootScope,$timeout,  $location, user,api,
   // be sure to update user value when it change is state from anonymous to logged
   $scope.disableFeedbackButton=function () {
     if(user.email.address){
-      feedback.setUser(user.email.address)
+      feedback.setUser(user.email.address);
     }
 
     return (!fb.comment||!fb.email);
@@ -124,11 +124,11 @@ function feedbackFactory(config, user, $rootScope,$http) {
       //
       // case of shop
       if(route.scope.$$childHead&&route.scope.$$childHead.shop){
-        return this.shop=route.scope.$$childHead.shop;
+        return (this.shop=route.scope.$$childHead.shop);
       }
     }
 
-  }
+  };
 
   Feedback.prototype.setUser=function(email) {
     this.email=email;

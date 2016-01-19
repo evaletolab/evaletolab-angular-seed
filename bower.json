@@ -25,6 +25,9 @@
     "underscore": "1.x",
     "uploadcare": "2.x",
     "angular-loading-bar": "~0.8.0",
-    "bootstrap": "3.x"
+    "bootstrap": "3.x",
+    "angular-translate": "~2.8.1",
+    "remarkable": "~1.6.1",
+    "angular-flash-alert": "~1.1.1"
   }
 }

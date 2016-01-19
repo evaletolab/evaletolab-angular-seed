@@ -1,21 +1,10 @@
-<div tabindex="-1" class="screen-content" ng-controller="AccountCtrl">
+<div tabindex="-1" class="container dashboard"  ng-controller="AccountCtrl">
   
 
-   <section class="" tabindex="-1">
-      <div class="">
+  <div class="row">
+    <div class="col-md-3" ng-include="'/partials/account/navigation.html'" />
 
-
-
-      <!--                               -->
-      <!-- NAVIGATION -->
-      <!--                               -->                          
-      <div  class="bucket post-bucket homepage-posts" ng-include="'/partials/account/navigation.html'"></div>
-
-
-      
-      <!--                               -->
-      <!-- CONTENT                       -->
-      <!--                               -->                          
+    <div class="col-md-9">
 
 
       <form name="form" novalidate="novalidate" class="wizard " ng-submit="save(user)" >
@@ -76,7 +65,7 @@
           <!-- ADDRESS -->
 
           <!-- ADDRESSES -->
-        <div class="clearfix" ng-hide="user.addresses.length">
+        <div class="clearfix hide" ng-hide="user.addresses.length">
             <a class="btn btn-lg btn-block" 
                     ng-class="{'btn-info':!user.addresses.length,'btn-default':user.addresses.length,}" 
                     ng-click="user.addresses.push({primary:true})">
@@ -185,9 +174,8 @@
             </button> 
           </div>          
       </form>      
-
-      </section>
-   </section>
+    </div>
+  </div>
 </div>
 
 

@@ -1,19 +1,35 @@
 
-<div tabindex="-1"  id="null" class="screen-content document" ng-controller="DocumentCtrl">
+<div tabindex="-1"  class="" ng-controller="DocumentCtrl">
+
+<div ng-init="findOneDocument()" class=" markdown-{{doc.model.type}}">
+	
+  <div class="home-header" backstretch="doc.model.photo.header" ng-if="doc.model.photo.header">
+  </div>
 
 
-  <section class="wrapper shop" tabindex="-1" ng-init="findOneDocument()">
-    <div class="wrapper-inner markdown-{{document.model.type}}" >
-
-      <!--                               -->
-      <!-- CONTENT                       -->
-      <!--                               -->
-
-      <markdown  markdown-content="document.model.content"></markdown>
+	<div class="container ">
 
 
+		<h3 class="byline">
+			Published <time>{{doc.model.created|dateMomentShort}}</time> by <span class="author">{{doc.model.signature}} 
+		</h3>
+    <a ng-href="/{{doc.model.type}}/{{doc.model.slug[0]}}/edit" 
+    	 class="btn btn-info btn-xs pull-right" 
+    	 ng-show="user.isAdmin()" ><i class="fa fa-edit"></i> edit</a>
 
 
-    </div>
-  </section>
+		<h1 i18n-render="doc.model.title"></h1>	
+		<h2 i18n-render="doc.model.header" class="header" 
+		 parse-markdown="true"></h2>
+	</div>    
+  
+  <div class="container text" 
+  		 i18n-render="doc.model.content" 
+  		 parse-markdown="true">
+  	
+  </div>
+
+
+</div>
+
 </div>

@@ -1,0 +1,62 @@
+<div ng-controller="ConfigCtrl" class="container relative">
+  <div class="row" >
+    <div class="stick-r">
+      <button ng-disabled="WaitText"  ng-click="saveConfig();"  class="save btn btn-primary btn-lg"  >Enregistrer</button>
+    </div>
+
+    <div class="col-md-3" ng-include="'/partials/account/navigation.html'" />
+
+
+    <div class="col-md-9">
+
+      <h4 class="page-header">Gérer votre navigation principale </h4>
+      <!-- PRIMARY MENU -->
+      <div class="clearfix" 
+           ng-repeat="menu in config.shared.home.views|orderBy:['group','weight']"
+           ng-class="{'dirty':menu.dirty}">
+        <form class="form-inline col-xs-11 nopadding">
+          <div class="form-group " >
+            <input type="text" class="form-control form-inline"  placeholder="Nom" ng-model="menu.name[locale()]">
+            <input type="number" class="form-control "  placeholder="poid" ng-model="menu.weight" style="width:80px" min="0">
+            <input type="text" class="form-control"  placeholder="url de la page" ng-model="menu.url">
+          </div>
+        </form>
+        <div class="col-xs-1">
+          <a class="pull-right btn btn-default btn-xs" href ng-click="menuSplice(config.shared.home.views,menu)"><i class="fa fa-remove"></i></a>
+        </div>           
+      </div>
+      <hr/>
+      <div class="clearfix">
+        <button href ng-click="config.shared.home.views.push({})" class="btn btn-block btn-lg ">Ajouter un menu primaire <i class="fa fa-plus"></i></button>
+      </div>
+
+      <h4 class="page-header">Gérer votre navigation secondaire </h4>
+      <!-- SECONDARY MENU   -->
+      <div class="clearfix" 
+           ng-repeat="menu in config.shared.menu|orderBy:['group','weight']"
+           ng-class="{'dirty':menu.dirty}">
+        <form class="form-inline col-xs-11 nopadding">
+          <div class="form-group " >
+            <input type="text" class="form-control form-inline"  placeholder="Nom" ng-model="menu.name[locale()]">
+            <input type="number" class="form-control "  placeholder="poid" ng-model="menu.weight" style="width:80px" min="0">
+            <input type="text" class="form-control"  placeholder="url de la page" ng-model="menu.url">
+            <input type="text" class="form-control"  placeholder="nom du groupe" ng-model="menu.group" style="width:160px">
+            <input type="checkbox" class="form-control"   
+                   ng-model="menu.active"
+                   ng-class="{'ok':menu.active}">
+          </div>
+        </form>
+        <div class="col-xs-1">
+          <a class="pull-right btn btn-default btn-xs" href ng-click="menuSplice(config.shared.menu,menu)"><i class="fa fa-remove"></i></a>
+        </div>           
+      </div>
+      <hr/>
+      <div class="clearfix">
+        <button href ng-click="config.shared.menu.push({dirty:true})" class="btn btn-block btn-lg ">Ajouter un menu <i class="fa fa-plus"></i></button>
+      </div>
+
+
+          
+    </div>
+  </div>
+</div>

@@ -2,8 +2,8 @@
 
 // 
 // chromium-browser --ignore-gpu-blacklist --disable-gpu-sandbox
-var API_SERVER='http://localhost:4000';
-// var API_SERVER='//api.'+window.location.hostname;
+// var API_SERVER='http://localhost:4000';
+var API_SERVER='//api.'+window.location.hostname;
 // var API_SERVER='http://192.168.1.35:4000'
 // var API_SERVER='http://karibou-api.cloudfoundry.com'
 // var API_SERVER='http://karibou-evaletolab.rhcloud.com'
@@ -18,17 +18,20 @@ angular.module('app', [
   'ngSanitize',
   'ngTouch',
   'ngAnimate',
-  'ngUploadcare',  
+  'ngUploadcare',
+  'pascalprecht.translate',
   'infinite-scroll',
+  'flash',
   'angular.filter',
   'app.templates',
   'app.config',
+  'app.storage',
   'app.raven',
   'app.api',
   'app.root',
   'app.user',
-  'app.feedback',
-  'app.document'
+  'app.document',
+  'app.feedback'
 ])
   .value('API_SERVER',API_SERVER)
   .config(appConfig)
@@ -121,8 +124,8 @@ function rootScopeFIX($provide) {
 
 //
 // Configure application $route, $location and $http services.
-appConfig.$inject=['$provide','$routeProvider','$locationProvider','$httpProvider'];
-function appConfig( $provide, $routeProvider, $locationProvider, $httpProvider) {
+appConfig.$inject=['$provide','$routeProvider','$locationProvider','$httpProvider','$translateProvider'];
+function appConfig( $provide, $routeProvider, $locationProvider, $httpProvider,$translateProvider) {
   
   // FIX IOS error
   rootScopeFIX($provide);
@@ -144,14 +147,48 @@ function appConfig( $provide, $routeProvider, $locationProvider, $httpProvider) 
     .when('/',{templateUrl:'/partials/pages/welcome.html'})
     .when('/welcome',{templateUrl:'/partials/pages/welcome.html'})
     .when('/the-site-is-currently-down-for-maintenance-reasons', {title:'the site is currently down for maintenance reasons',templateUrl : '/partials/errors/down.html'})
-    .when('/about', {title:'about',templateUrl : '/partials/about.html'})
-    .when('/page/doc/:article?',{title: 'markdown content', templateUrl: '/partials/pages/page.html'})
-    .when('/page/:article?',{title: 'markdown content', templateUrl: '/partials/pages/page.html'})
     // 404
     .when('/404', {title:'404',templateUrl : '/partials/errors/404.html'})
     // Catch all
     .otherwise({redirectTo : '/404'});
 
+
+  // i18n
+
+  $translateProvider.translations('en', {
+    logout: 'Logout',
+    login: 'Login',
+    signup: 'Signup',
+    general: 'General',
+    navigation: 'Navigation',
+    users:'Users',
+    activity:'Activity',
+    config:'Settings',
+    publication:'Publications',
+    allpubli:'My publications',
+    security:"Security",
+    password:"Change password",
+    profile:"Update profile"
+  });
+  $translateProvider.translations('fr', {
+    logout: 'Logout',
+    login: 'Connexion',
+    signup: 'S\'inscrire',
+    general: 'Général',
+    navigation: 'Navigation',
+    users:'Utilisateur',
+    activity:'Activité',
+    config:'Configuration',    
+    publication:'Publications',
+    allpubli:"Mes publications",
+    security:"Sécurité",
+    password:"Modifier mon mot de passe",
+    profile:"Mes données personnelles"
+  });
+
+  $translateProvider.preferredLanguage('fr');
+  $translateProvider.useStorage('$storage');
+  $translateProvider.useSanitizeValueStrategy(null);
   // Without serve side support html5 must be disabled.
   $locationProvider.html5Mode(true);
   // $locationProvider.hashPrefix('!');
@@ -160,8 +197,8 @@ function appConfig( $provide, $routeProvider, $locationProvider, $httpProvider) 
 
 // define default behavior for all http request
 // http://www.webdeveasy.com/interceptors-in-angularjs-and-useful-examples/
-errorInterceptor.$inject = ['$q', '$rootScope', '$location', '$timeout'];
-function errorInterceptor($q, scope, $location, $timeout) {
+errorInterceptor.$inject = ['$q', '$rootScope', '$location', '$timeout','Flash'];
+function errorInterceptor($q, scope, $location, $timeout, Flash) {
   var error_net=0;
   function parseError(err){
       if(typeof err === 'string') {return err;}
@@ -179,10 +216,11 @@ function errorInterceptor($q, scope, $location, $timeout) {
   }
 
   function showError($scope, err, ms){
-    $scope.FormErrors=parseError(err);
-    $timeout(function(){
-      $scope.FormErrors=undefined;
-    }, ms||5000);
+    // $scope.FormErrors=parseError(err);
+    // $timeout(function(){
+    //   $scope.FormErrors=undefined;
+    // }, ms||5000);
+    Flash.create('danger', err);
   }
 
   return {
@@ -230,7 +268,7 @@ function errorInterceptor($q, scope, $location, $timeout) {
               // if logged but without correct right 
               showError(scope,response.data);            
             }else if(response.config.url.indexOf('/v1/users/me')===-1){
-              showError(scope,"Access denied!")
+              showError(scope,"Access denied!");
             }
           }
 
@@ -251,9 +289,11 @@ function appRun($templateCache, $route, $http, $timeout, config) {
 
   // special setup that depends on config 
   config.shared.then(function () {
+      // Application is ready there
       // init uploadcare key here
       // config.uploadcare=config.shared.keys.pubUpcare;
-      // uploadcare.start({ publicKey: config.uploadcare, maxSize:153600});  
+      uploadcare.start({ publicKey: config.shared.keys.pubUpcare, maxSize:203600});  
+      angular.element('html').removeClass('app-loading');
   });
 
 

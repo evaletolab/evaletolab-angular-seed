@@ -1,0 +1,330 @@
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak{
+  display: none!important;
+}
+
+
+.btn-done,.input-done{
+  opacity: .2;
+}
+
+.cursor-pointer{
+  cursor:pointer;
+}
+
+.dropdown-menu{
+  z-index: 1999999
+}
+
+.vertical-divider>div{
+  padding:0 8px 4px;
+}
+.vertical-divider.border{
+  border-top:1px solid #eee;
+}
+
+.fa-7x {
+  font-size: 8em;
+}
+.fa-7x.fa-border {
+  border-width: 8px;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  border-radius: 7px;
+}
+
+.label.label-lg{
+  font-size: 100%;
+} 
+
+.label.label-md{
+  font-size: 90%;
+} 
+
+
+.btn-transparent {
+  background-color: rgba(90,120,90,.05);
+  border-color: #ccc;
+  -text-shadow:0 0 1px rgba(0,0,0,1);
+}
+
+.btn-transparent:hover {
+  background-color: rgba(60,60,60,.6);
+}
+
+.btn-split {
+  display: block;
+  width: 48%;
+  padding-right: 0;
+  padding-left: 0;
+  margin-right: 4px;
+  float: left;
+}
+
+.btn-info:hover, .btn-info:active, .btn-info.active, .btn-transparent.active {
+  color: #fff;
+  background-color: #2F89A4;
+  border-color: #269abc;
+}
+
+.input-xs {
+    height: 22px;
+    padding: 2px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+    vertical-align: middle;
+}
+
+
+.separator{
+  -webkit-box-shadow: 0 1px #fff;
+     -moz-box-shadow: 0 1px #fff;
+          box-shadow: 0 1px #fff;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-width: 1px 0;
+  height: 1px;
+  margin-top: -20px;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+
+
+.nomargin{
+  margin: 0px!important;
+}
+
+.nopadding{
+  padding: 0px!important;
+}
+
+.nopadding-lr{
+  padding: 10px 0!important ;
+}
+
+
+.no-space[class*="span"] {
+    margin-left: 0;
+}
+
+
+.round-corner{
+  border-radius:5px;
+}
+
+.border-bottom{
+  border-bottom:1px solid #eee;
+}
+
+.border-green{
+  border:1px solid #0f0!important;
+}
+.border-warning{
+  border:1px solid #8a6d3b!important;
+}
+.text-center{text-align: center;}
+.text-left{text-align: left;}
+.text-left.padding{padding-left: 10px!important;}
+.text-right{text-align: right;}
+.text-right.padding{padding-right: 10px!important;}
+.text-capitalize{text-transform: capitalize;}
+.text-strike{text-decoration: line-through!important;}
+.navbar-inner{
+  min-height-:40px;
+}
+
+
+
+.fill{
+  height:100%;
+}
+
+img.img-cover {
+  background-size: cover;
+  background-position:50% 50%;
+  width: 100%;
+  display: block;
+}
+.shadow{
+  text-align: left;
+  text-shadow: 0 0px 2px #444;
+}
+
+.box-shadow{
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25) ;
+}
+
+
+.noscroll {
+    overflow: hidden !important;
+}
+
+.strike{
+  text-decoration:line-through;
+}
+
+.bold{
+  font-weight:bold;
+}
+
+.small {
+  font-size: 88%;
+}
+
+.smallx {
+  font-size: 78%;
+}
+
+.smallxx {
+  font-size: 70%;
+}
+
+.lazy {
+  -display: none;
+}
+
+.red{
+  color:red!important;
+}
+
+.green{
+  color:#8dc63f!important;
+}
+.green-1{
+  color:#5C8623!important;
+}
+
+.white{
+  color:white!important;
+}
+
+.black{
+  color:black!important;
+}
+
+.gray{
+  color:#726658!important;
+}
+
+.grayx{
+  color:#aaa!important;
+}
+
+.pink{
+  color:#da1c5c!important;
+}
+
+.pink1{
+  color:#ff0985!important;
+}
+
+.blue,.turquoise{
+  color: #00a79d!important;
+}
+
+.blue-king{
+  color:blue!important;
+}
+
+
+.bg-black{
+  background-color:#452d16;
+}
+
+.bg-gray{
+  background-color:#efefef;
+}
+
+.link{
+  border-bottom: 1px dotted;
+  text-decoration: none!important;
+}
+
+.headline{
+  background:none repeat scroll 0 0 rgba(0, 0, 0, 0.4);
+}
+
+.padding10{
+  padding:  10px;margin:  -10px;
+}
+
+
+
+.stick-bl{
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1;
+}
+
+.stick-tr{
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
+
+.stick-r{
+  position: absolute;
+  right: 20px;
+  z-index: 1;
+}
+
+.absolute{
+  position: absolute;
+}
+
+.relative{
+  position: relative;
+}
+
+
+.textshadow {
+    text-shadow: 0 0px 5px rgba(200,200,200,.25);
+}
+
+
+.well.white{
+  background-color: white;
+  color: inherit!important;
+}
+.text-ellipsis{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.opacity{
+  opacity:0.3;
+  filter:alpha(opacity=30);
+}
+
+
+@media (max-width: 768px) {
+  .nopadding-xs{
+    padding: 0px!important;
+  }
+
+}
+
+@media (max-width: 400px) {
+  .btn-block-xs {
+      display: block;
+      width: 100%;
+      padding-right: 0px;
+      padding-left: 0px;
+  }
+}
+
+@media all {
+  .page-break {  }
+}
+
+@media print {
+  .page-break { 
+    display: block; 
+    bresk-before:always;
+    page-break-before: always; 
+  }
+}

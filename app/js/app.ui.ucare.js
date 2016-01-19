@@ -32,10 +32,9 @@ function uploadcareWidget(config, $parse, $timeout, $log) {
       //     publicKey: config.uploadcare,
       // });      
       config.shared.then(function () {
-
         $scope.widget = uploadcare.Widget($element);
         $scope.widget.validators.push(function(fileInfo) {
-          if (fileInfo.size !== null && fileInfo.size > 150 * 1024) {
+          if (fileInfo.size !== null && fileInfo.size > 240 * 1024) {
             $scope.onUploadError({error: "La taille maximum d'une image est limitée à 150kb"});
             throw new Error("fileMaximumSize");
           }

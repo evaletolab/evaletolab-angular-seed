@@ -2,35 +2,12 @@
 
 
 angular.module('app.api',['app.config','app.ui'])
-  .factory('flash',flashFactory)
   .factory('api',apiFactory);
 
-//
-//
-flashFactory.$inject=['$rootScope'];
-function flashFactory($rootScope) {
-  var queue = [], currentMessage = '';
-  
-  $rootScope.$on('$routeChangeSuccess', function() {
-    if (queue.length > 0) 
-      currentMessage = queue.shift();
-    else
-      currentMessage = '';
-  });
-  
-  return {
-    set: function(message) {
-      queue.push(message);
-    },
-    get: function(message) {
-      return currentMessage;
-    }
-  };
-}
 
 
-apiFactory.$inject=['$rootScope','$http','$resource','$timeout','$q','$log','$location','$routeParams','config'];
-function apiFactory($rootScope, $http, $resource, $timeout, $q, $log, $location, $routeParams, config) {  
+apiFactory.$inject=['$rootScope','$http','$resource','$timeout','$q','$log','$location','$routeParams','config','Flash'];
+function apiFactory($rootScope, $http, $resource, $timeout, $q, $log, $location, $routeParams, config,Flash) {  
   var _categories=[], promise;
 
   /**
@@ -45,21 +22,14 @@ function apiFactory($rootScope, $http, $resource, $timeout, $q, $log, $location,
   }
 
   function info($scope, msg, ms, cb){
-      if(ms === undefined){ ms=4000; }
-      else if ((typeof ms)==='function'){ cb=ms;ms=4000; }
-      $rootScope.FormInfos=msg;
-      $timeout.cancel(promise);
-      promise=$timeout(function(){
-        $rootScope.FormInfos=false;
-        if (cb) cb($scope);
-        promise=false;
-      }, ms);
+    Flash.create('success', msg, 'custom-class');
   }
 
   
 
 
-  function error($scope, ms, cb){
+  function error($scope, msg, ms, cb){
+    Flash.create('danger', msg);
   }  
   
 

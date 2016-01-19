@@ -1,3 +1,52 @@
-<span></span>
+      <!-- ADMIN -->
+<div app-affix="10" >
+      <div class="  clearfix"  ng-if="user.isAdmin()">
+          <h5 class=" ">
+            <span class=""><i class="fa fa-line-chart gray"></i>&nbsp;Mon dashboard</span>
+          </h5>
+          <div class="list-group">
+            <a class="list-group-item " href="/account/overview" ng-class="getClass('/account/overview')" translate="general">Le site</a>
+            <a class="list-group-item " href="/admin/navigation" ng-class="getClass('/admin/navigation')" translate="navigation">La navigation</a>
+            <a class="list-group-item " href="/admin/user" ng-class="getClass('/admin/user')" translate="users">Les utilisateurs</a> 
+            <a class="list-group-item " href="/admin/config" ng-class="getClass('/admin/config')" translate="config">La configuration</a> 
+            <a class="list-group-item " href="/admin/activities" translate="activity">L'activité</a>
+          </div>
+      </div>
+        
 
+      <!-- MY CONFIG -->
+      <div  class=" clearfix " >
+        <h5  class=" " >
+          <span class=""><i class="fa fa-file-text-o gray"></i>&nbsp;<span translate="publication">Mes publications</span></span> 
+        </h5>
+        <p>
+          <a class="list-group-item " href="/account/documents" ng-class="getClass('/account/documents')"><i class="fa fa-angle-right"></i>&nbsp;<span translate="allpubli">Toutes mes publications</span></a>
+        </p>
+      </div>    
 
+      <!-- LOVE -->
+      <div  class=" clearfix hide" >
+        <h5 class=" " ng-hide="user.likes.length">
+          <span class="">Je n'ai encore pas de documents préférés.</span>
+        </h5>
+        
+        <h5 ng-show="user.likes.length" class=" " >
+          <span class="">Mes coups de coeur</span> 
+        </h5>
+        <p>
+          <a class="list-group-item " href="/account/love"><i class="fa fa-angle-right"></i>&nbsp;Ma liste de documents</a>
+        </p>
+      </div>          
+
+        
+      <!-- SECURITY -->
+      <div class="  clearfix" >
+        <h5  class=" " >
+          <span class=""><i class="fa fa-lock gray"></i>&nbsp; <span translate="security">Sécurité</span></span> 
+        </h5>
+        <div class="list-group">
+          <a class="list-group-item " href="/account/password" ng-class="getClass('/account/password')"><i class="fa fa-angle-right"></i>&nbsp;<span translate="password"></span></a>
+          <a class="list-group-item " href="/account/profile" ng-class="getClass('/account/profile')"><i class="fa fa-angle-right"></i>&nbsp;<span translate="profile"></span></a>          
+        </div>
+      </div>          
+</div>

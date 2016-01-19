@@ -1,96 +1,95 @@
 
-<div tabindex="-1"  id="null" class="screen-content" ng-controller="AccountCtrl">
-  
+<div tabindex="-1" class="container dashboard" ng-controller="AccountCtrl">
 
- <!--  <div class="butter-bar active info back " ng-cloak ng-show="user.email.status !== true">
-    <p class="butter-bar-message">
-      <b>Psst!</b> N'oubliez pas de valider votre adresse e-mail! Recherchez dans votre boîte de reception le message que nous vous avons envoyé. <a href="/account/overview">Vous pouvez aussi demander à recevoir de nouveau l'e-mail</a>.
-    </p>
-  </div>
- -->
+<div class="row relative" ng-controller="ConfigCtrl" >
+    <div class="stick-r" ng-if="user.isAdmin()">
+      <button ng-disabled="WaitText"  ng-click="saveConfig();"  class="save btn btn-primary btn-lg"  >Enregistrer</button>
+    </div>
 
+    <div class="col-md-3" ng-include="'/partials/account/navigation.html'" />
 
-   <section class="wrapper" tabindex="-1">
-      <div class="wrapper-inner">
-
-
-
-      <!--                               -->
-      <!-- NAVIGATION -->
-      <!--                               -->                          
-
-
-      <!--                               -->
-      <!-- CONTENT                       -->
-      <!--                               -->                          
-
-
-
-      <!-- SHOPS ORDERS -->
-      <div class="  clearfix"  ng-if="user.isAdmin()">
-          <h5 class=" ">
-            <span class=""><i class="fa fa-line-chart gray"></i>&nbsp;Mon dashboard</span>
-          </h5>
-          <div class="list-group">
-            <a ng-if="user.isAdmin()" class="list-group-item blue" href="/admin/activities">L'activité</a>
-            <a ng-if="user.isAdmin()" class="list-group-item blue" href="/admin/user">Les utilisateurs</a> 
-            <a ng-if="user.isAdmin()" class="list-group-item blue" href="/admin/config">La configuration</a> 
-          </div>
-      </div>
-        
-
-      <!-- MY DOCS -->
-      <div  class=" clearfix" >
-        
-        <h5  class=" " >
-          <span class=""><i class="fa fa-file-text-o gray"></i>&nbsp;Mes publications</span> 
-        </h5>
-        <p>
-          <a class="list-group-item blue" href="/account/documents"><i class="fa fa-angle-right"></i>&nbsp;Toutes mes publications</a>
-        </p>
-      </div>    
-
-      <!-- LOVE -->
-      <div  class=" clearfix " >
-        <h5 class=" " ng-hide="user.likes.length">
-          <span class="">Je n'ai encore pas de documents préférés.</span>
-        </h5>
-        
-        <h5 ng-show="user.likes.length" class=" " >
-          <span class="">Mes coups de coeur</span> 
-        </h5>
-        <p>
-          <a class="list-group-item blue" href="/account/love"><i class="fa fa-angle-right"></i>&nbsp;Ma liste de documents</a>
-        </p>
-      </div>          
-
+    <div class="col-md-9" >
       <!-- PROFILE -->
-      <div class="  clearfix" >
-        <h5 class=" ">
-          <span class=""><i class="fa fa-edit gray"></i>&nbsp;Mon profil</span>
-        </h5>
+      <h4 class="page-header">
+        <span class=""><i class="fa fa-edit gray"></i>&nbsp;Mon profil</span>
+      </h4>
 
-        <div class="alert alert-warning" ng-cloak  ng-show="user.email.status !== true">
-          <strong>Votre adresse e-mail n'a pas été confirmée.</strong><br/>
-          Afin d'assurer une communication avec vous, nous avons besoin de valider votre adresse email.
-          Pour valider votre adresse, recherchez dans votre boîte de reception le message que nous vous avons envoyé. Vous pouvez <a href="" ng-click="verify(user)">aussi demander à recevoir un nouvel e-mail de confirmation.</a>.
-        </div>
-
-
-        <p>
-          <a class="list-group-item blue" href="/account/profile"><i class="fa fa-angle-right"></i>&nbsp;Modifier mes données personnelles</a>
-        </p>
+      <div class="alert alert-warning" ng-cloak  ng-show="user.email.status !== true">
+        <strong>Votre adresse e-mail n'a pas été confirmée.</strong><br/>
+        Afin d'assurer une communication avec vous, nous avons besoin de valider votre adresse email.
+        Pour valider votre adresse, recherchez dans votre boîte de reception le message que nous vous avons envoyé. Vous pouvez <a href="" ng-click="verify(user)">aussi demander à recevoir un nouvel e-mail de confirmation.</a>.
       </div>
-        
-      <div class="  clearfix" >
-        <h5  class=" " >
-          <span class=""><i class="fa fa-lock gray"></i>&nbsp;Sécurité</span> 
-        </h5>
-        <div class="list-group">
-          <a class="list-group-item blue" href="/account/password"><i class="fa fa-angle-right"></i>&nbsp;Modifier mon mot de passe</a>
+
+
+      <!-- LE SITE -->
+      <div class="clearfix" >
+        <h4 class="page-header"><i class="fa fa-edit gray"></i>&nbsp;Nom du site</h4>
+        <div class="form-group ">                        
+          <div class="form-group ">                        
+              <input type="text" class="form-control input-lg" ng-model="config.shared.home.siteName[locale()]" />
+          </div>
         </div>
-      </div>          
- 
-      </section>
-   </section>
+
+        <h4 class="page-header"><i class="fa fa-edit gray"></i>&nbsp;Titre du site</h4>
+        <div class="form-group ">                        
+          <div class="form-group ">                        
+              <input type="text" class="form-control input-lg" ng-model="config.shared.home.tagLine[locale()]" />
+          </div>
+        </div>
+
+        <!-- ABOUT -->
+        <h4 class="page-header"><i class="fa fa-edit gray"></i>&nbsp;A propos du site</h4>
+        <div class="form-group ">                        
+          <div class="">
+            <textarea  rows="4" class="form-control input-lg" ng-model="config.shared.home.about[locale()]" placeholder="A propos?"></textarea>            
+          </div>
+        </div>
+
+        <!-- IMG HOME -->
+        <h4 class="page-header"><i class="fa fa-edit gray"></i>&nbsp;Image Home</h4>
+        <div class="form-group ">                        
+          <div class="" style="width:100%">
+            <!-- Photo -->
+            <uploadcare-widget
+              ng-model="config.shared.home.image"
+              data-locale="{{locale()}}"
+              data-tabs="file url facebook flickr"
+              data-images-only="true"
+              data-path-value="true"
+              data-preview-step="true"
+              data-clearable="true"
+              data-multiple="false"
+              data-crop="free"
+              data-max-size-hide="203600"
+              on-upload-error="uploadImageError(error)"
+              value="{{config.shared.home.image}}"
+             />          
+          </div>
+        </div>
+
+        <!-- FOOTER -->
+        <h4 class="page-header"><i class="fa fa-edit gray"></i>&nbsp;Footer</h4>
+        <div class="form-group ">                        
+          <div class="">
+            <textarea  rows="4" class="form-control input-lg" ng-model="config.shared.home.footer[locale()]" ></textarea>            
+          </div>
+        </div>
+
+        
+        <!-- MAINTENANCE -->
+        <h4 class="page-header"><i class="fa fa-edit gray"></i>&nbsp;Message aux utilisateurs du site</h4>
+        <div class="form-group ">                        
+          <label class="control-label">Information
+            <input type="checkbox" ng-model="config.shared.maintenance.active">
+          </label>
+          <div class="">
+            <textarea  rows="4" class="form-control input-lg" ng-model="config.shared.maintenance.reason[locale()]" placeholder="Pour quelle raison?"></textarea>            
+          </div>
+        </div>
+        
+        <hr/>
+      </div>
+
+    </div>
+  </div> 
 </div>

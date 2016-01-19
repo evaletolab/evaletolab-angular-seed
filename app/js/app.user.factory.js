@@ -4,7 +4,7 @@
 // Define the User module (app.user)  for controllers, services and models
 // the app.user module depend on app.config and take resources in account/*.html
 angular.module('app.user.factory',[])
-  .factory('user',userFactory);;
+  .factory('user',userFactory);
 
 //
 // define dependency injection and implement servie
@@ -194,7 +194,6 @@ function userFactory(config, $location, $rootScope, $route, $resource, $log, $q,
     return this.chain(backend.$user.get({id:'me'}, function(_u,headers) {
         self.wrap(_u);
         // self.shops=shop.wrapArray(self.shops);
-
         //
         // init
         self.init();

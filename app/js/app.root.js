@@ -9,20 +9,31 @@ angular.module('app.root', ['app.config','app.user'])
 //
 // the AppCtrl is used in index.html (see app/assets/index.html)
 appCtrl.$inject=[
-  '$scope','$rootScope','$window','$location','$routeParams','$timeout','$http','config','api','user'];
-function appCtrl($scope, $rootScope, $window,  $location, $routeParams, $timeout, $http, config, api, user) {
+  '$scope','$rootScope','$window','$location','$routeParams','$timeout','$http','$translate','config','api','user'];
+function appCtrl($scope, $rootScope, $window,  $location, $routeParams, $timeout, $http, $translate, config, api, user) {
 
   $rootScope.user=$scope.user = user;
   $scope.config=config;
   $scope.api=api;
-  $scope.browserName;
+  $scope.browserName=false;
   window.referrers=[];
 
 
   $scope.options={
-    needReload:false
+    needReload:false,
+    locale:$translate.use()
   };
 
+
+
+  $scope.locale=function () {
+    return $scope.options.locale;
+  }
+
+  $scope.changeLanguage = function (langKey) {
+    $translate.use(langKey);
+    $scope.options.locale=langKey;
+  };
 
   //
   // welcome page
@@ -112,7 +123,7 @@ function appCtrl($scope, $rootScope, $window,  $location, $routeParams, $timeout
     var browsers = {chrome: /chrome/i, safari: /safari/i, firefox: /firefox/i, ie: /internet explorer/i};
     for(var key in browsers) {
       if (browsers[key].test(userAgent)) {
-        return $scope.browserName=key;
+        return ($scope.browserName=key);
       }
     }
     // special case for IE>=11
@@ -120,9 +131,6 @@ function appCtrl($scope, $rootScope, $window,  $location, $routeParams, $timeout
       return 'ie';
     }
   };
-
-
-
 
   $rootScope.locationReferrer=function(defaultUrl){
     $location.path($rootScope.referrer?$rootScope.referrer:defaultUrl);
@@ -160,8 +168,9 @@ function appCtrl($scope, $rootScope, $window,  $location, $routeParams, $timeout
   //  // current url is '/products/1'
   //  getClass('/products'); // returns 'active'
   $scope.getClass = function (id, or) {
-    if (!$scope.activeNavId){return '';}
-    if ($scope.activeNavId.substring(0, id.length) === id) {
+    if (!$scope.activeNavId||!id){return '';}
+    if($scope.activeNavId===id) return 'active';
+    if (id.length>1 && $scope.activeNavId.substring(0, id.length) === id) {
       return 'active';
     }
     if (or && $scope.activeNavId.substring(0, or.length) === or) {
@@ -200,10 +209,11 @@ function appCtrl($scope, $rootScope, $window,  $location, $routeParams, $timeout
   $scope.uploadImageError=function(error){
       //http://ucarecdn.com/c1fab648-f6b7-4623-8070-798165df5ca6/-/resize/300x/
       if(error){
-        return api.info($scope,error);
+        return api.error($scope,error);
       }
 
   };
+
 
 }
 

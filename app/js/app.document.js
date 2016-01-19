@@ -3,10 +3,10 @@
 //
 // Define the Document module (app.document)  for controllers, services and models
 // the app.document module depend on app.config and take resources in document/*.html 
-angular.module('app.document', ['app.config', 'app.api','app.ui','app.document.ui'])
+angular.module('app.document', ['app.config','app.document.ui'])
   .config(docConfig)
   .controller('DocumentCtrl',docCtrl)
-  .factory('document',docFactory);
+  .factory('documents',docFactory);
 
 
 //
@@ -20,42 +20,27 @@ function docConfig($routeProvider, $locationProvider, $httpProvider){
         title:'Créer un nouveau document ',controller:'DocumentCtrl', templateUrl : '/partials/document/document-create.html'
      })
     .when('/account/documents', {
-        title:'Les documents ',  templateUrl : '/partials/document/documents.html'
+        title:'Les documents ',  templateUrl : '/partials/account/documents.html'
     })
     .when('/content/category/:category', {
         title:'Les documents ',  templateUrl : '/partials/document/documents-category.html'
     })
-    .when('/content/:slug/edit', {
+    .when('/:type/:slug/edit', {
         title:'Votre document ', controller:'DocumentCtrl', templateUrl : '/partials/document/document-create.html'
      })
-    .when('/content/:slug', {
+    .when('/:type/:slug', {
         controller:'DocumentCtrl', templateUrl : '/partials/document/document.html'
      });
 }
 
 //
 // implement controller
-docCtrl.$inject=[
-  '$scope','$rootScope','$routeParams','config','document','feedback'
-];
-
-function docCtrl ($scope,$rootScope, $routeParams, config, document, feedback) {
+docCtrl.$inject=['$scope','$rootScope','$routeParams','config','documents','feedback','user'];
+function docCtrl($scope,$rootScope, $routeParams, config, doc, feedback,user) {
   //
   // init context
-  $scope.document=document;
-  $scope.defaultLabel={
-    'recipe':'recette',
-    'post':'publication',
-    'bundle':'panier',
-    'page':'page'
-  };
-
-  $scope.defaultTitle={
-    'recipe':'Les recettes',
-    'post':'Les publications',
-    'bundle':'Les paniers',
-    'page':'Les pages'
-  };
+  $scope.doc=doc;
+  
 
   $scope.WaitText=true;
 
@@ -63,23 +48,23 @@ function docCtrl ($scope,$rootScope, $routeParams, config, document, feedback) {
   // current category
   $scope.type=$routeParams.category;
 
-  //
-  // init an empty list
-  $scope.documents=[];
-  
   config.shared.then(function () {
     $scope.types=config.shared.document.types;
   });
 
-  var api=$scope.api, config=$scope.config, user=$scope.user;
+  user.$promise.then(function () {
+    user.documents=doc.my().models;
+  })
+
+  var api=$scope.api, user=$scope.user;
 
   $scope.isOwnerOrAdmin=function (doc) {
     return user.id===doc.owner||user.isAdmin();
-  }
+  };
 
   $scope.save=function(){
     $rootScope.WaitText="Waiting ...";
-    document.save().$promise.then(function(s){
+    doc.save(doc.model).$promise.then(function(s){
       api.info($scope,"Votre document a été enregistré!",2000, function(){
       });
     });
@@ -88,50 +73,51 @@ function docCtrl ($scope,$rootScope, $routeParams, config, document, feedback) {
   
   $scope.create=function(){
     $rootScope.WaitText="Waiting ...";
-    document.create().model.$promise.then(function(){
+    doc.create().model.$promise.then(function(){
     });
     
   };
 
-  $scope.remove=function(document,password){
-    document.remove(password,function(){
+  $scope.remove=function(doc,password){
+    doc.remove(password,function(){
         $location.path("/content");
-        $scope.document={};
+        $scope.doc={};
     });
     
   };
 
   $scope.removeSku=function (sku) {
-      var idx=document.model.skus.indexOf(sku);
+      var idx=doc.model.skus.indexOf(sku);
       if(idx>-1){
-        document.model.skus.splice(idx,1);
-        document.save(this.model)
+        doc.model.skus.splice(idx,1);
+        doc.save(doc.model);
       }
-  }
+  };
   
 
   $scope.findOneDocument=function () {
     if(!$routeParams.slug){
-      document.clear();
+      doc.clear();
       return;
     }
-    document.get($routeParams.slug).model.$promise.then(function(){
-      $rootScope.title='documents '+document.model.slug+' - '+document.model.title;
+    doc.get($routeParams.slug).model.$promise.then(function(){
+      $rootScope.title=doc.model.slug;
+
     });
-  }
+  };
   
   //
   // load docs from user.id, or/and category
   $scope.findDocuments=function (options) {
-    options=options||_.extend({},$routeParams)
+    options=options||_.extend({},$routeParams);
     if(options.skus){
-      $scope.documents=document.findBySkus(options.skus).models;
+      $scope.docs=doc.findBySkus(options.skus).models;
     }
     if(options.category){
-      $scope.documents=document.findByCategory(options.category).models;      
+      $scope.docs=doc.findByCategory(options.category).models;      
     }
 
-  }
+  };
    
 }
 
@@ -143,14 +129,14 @@ function docCtrl ($scope,$rootScope, $routeParams, config, document, feedback) {
  * This service serves as a convenient wrapper for other related services.
  */
 docFactory.$inject=['config','$resource','$q','$rootScope','api','user'];
-function docFactory (config, $resource, $q,$rootScope, api,user) {
+function docFactory(config, $resource, $q,$rootScope, api,user) {
   var _documents;
 
 
   var defaultDocument = {
-    title:'Titre',
-    header:'En tête',
-    content:'Contenu',
+    title:{fr:'Titre'},
+    header:{fr:'En tête'},
+    content:{fr:'Contenu'},
     photo:{
       bundle:[]
     },
@@ -201,7 +187,7 @@ function docFactory (config, $resource, $q,$rootScope, api,user) {
 
   Document.prototype.getCategories = function() {
     return config.shared.document.types;
-  }
+  };
 
   Document.prototype.clear = function() {
     this.model={};
@@ -243,12 +229,10 @@ function docFactory (config, $resource, $q,$rootScope, api,user) {
 
   Document.prototype.save = function(doc){
     if(!doc){
-      this.model.skus=_.uniq(this.model.skus);
       this.model.$save();
       return this;
     }
-    doc.skus=_.uniq(doc.skus);
-    this.model=backend.documents.save({slug:doc.slug},doc);
+    this.model=backend.documents.save({slug:doc.slug[0]},doc);
     return this;
   };
 
