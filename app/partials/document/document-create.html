@@ -1,9 +1,10 @@
 
-<div tabindex="-1"  class="container document edit relative" ng-controller="DocumentCtrl">
+<div tabindex="-1"  class="markdown-{{doc.model.type}} document edit relative" ng-controller="DocumentCtrl">
 
-  <div class="markdown " ng-init="findOneDocument()">
+  <div class="container " ng-init="findOneDocument()">
 
-    <!-- FOOTER -->
+
+    <!-- EDIT -->
     <div class="stick-r">
       
       <a ng-href="/{{doc.model.type}}/{{doc.model.slug[0]}}" class="pull-right btn btn-default btn-lg" ng-show="doc.model.slug[0]" >Visionner</a>
@@ -12,7 +13,7 @@
 
     </div>
 
-    <h1>Nouvelle {{doc.model.type||'publication'}} </h1>
+    <h4>Edit [{{doc.model.type||'publication'}}]</h4>
 
 
     <!--                               -->
@@ -31,12 +32,13 @@
     <input type="text" class="form-control input-lg" 
            ng-model="doc.model.title[locale()]" />
 
-    <ul class="small">
-      <li ng-repeat="slug in doc.model.slug">{{slug}}</li>
+    <ul class="small list-group gray nopadding">
+      <li class="list-group-item " ng-repeat="slug in doc.model.slug">/{{doc.model.type}}/{{slug}} <span class="badge">slug</span></li>
     </ul>
 
     <h3 class="title">En tête</h3>
-    <div contentEditable="true"  ng-model="doc.model.header[locale()]" class="field" style="min-height:100px">
+    <div contentEditable="true"  class="header" 
+         ng-model="doc.model.header[locale()]" class="field" style="min-height:100px">
       
     </div>
 
@@ -51,21 +53,18 @@
     <input type="text" class="form-control input-lg" 
            ng-model="doc.model.signature" />
 
-      
-    </div>
 
     <!-- TYPE -->
-    <div>
-      <h3 class="title">Type du document</h3>
-      <input type="text" class="form-control input-lg" 
-             ng-model="doc.model.type" />
+    <h3 class="title">Type du document</h3>
+    <input type="text" class="form-control input-lg" 
+           ng-model="doc.model.type" />
+    <p class="help-block small">
+      Le type permet de grouper les articles ensemble. A l'affichage, l'ordre de la liste des articles d'un même type est définit par l'ordre alphabétique croissant des titres.
+    </p>
       
-    </div>
 
     <!-- PRODUCTS -->
     <h3 class="title">Associations</h3>
-    <!-- PHOTOS -->
-    <div class="clearfix  ">
 
 
     <!-- PHOTOS -->
@@ -73,7 +72,7 @@
       <table class="table condensed">
         <thead>
           <tr>
-            <th>Photos associées</th>
+            <th>Photos associées (header & article)</th>
             <th></th>
           </tr>
         </thead>          
@@ -85,7 +84,7 @@
           <td>
             <uploadcare-widget
                   ng-model="doc.model.photo.header"
-                  data-locale="fr"
+                  data-locale="{{locale()}}"
                   data-tabs="file url facebook flickr"
                   data-images-only="true"
                   data-path-value="true"
@@ -133,5 +132,8 @@
         </tbody>          
       </table>
     </div>
+      
+    </div>
+
   </div>
 </div>

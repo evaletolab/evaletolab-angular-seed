@@ -33,6 +33,8 @@ function appCtrl($scope, $rootScope, $window,  $location, $routeParams, $timeout
   $scope.changeLanguage = function (langKey) {
     $translate.use(langKey);
     $scope.options.locale=langKey;
+    // update server
+    $http.get(config.API_SERVER+'/v1/config?lang='+langKey);    
   };
 
   //

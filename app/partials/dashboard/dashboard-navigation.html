@@ -1,4 +1,4 @@
-<div ng-controller="ConfigCtrl" class="container relative">
+<div ng-controller="ConfigCtrl" class="container relative dashboard">
   <div class="row" >
     <div class="stick-r">
       <button ng-disabled="WaitText"  ng-click="saveConfig();"  class="save btn btn-primary btn-lg"  >Enregistrer</button>
@@ -10,6 +10,9 @@
     <div class="col-md-9">
 
       <h4 class="page-header">Gérer votre navigation principale </h4>
+      <p class="help-block">
+        Du menu principal l'on peut décliner les types de vue que vous allez utiliser lors de la création de document
+      </p>
       <!-- PRIMARY MENU -->
       <div class="clearfix" 
            ng-repeat="menu in config.shared.home.views|orderBy:['group','weight']"
@@ -27,7 +30,7 @@
       </div>
       <hr/>
       <div class="clearfix">
-        <button href ng-click="config.shared.home.views.push({})" class="btn btn-block btn-lg ">Ajouter un menu primaire <i class="fa fa-plus"></i></button>
+        <button href ng-click="config.shared.home.views.push({})" class="btn btn-block btn-lg ">Ajouter un menu principal <i class="fa fa-plus"></i></button>
       </div>
 
       <h4 class="page-header">Gérer votre navigation secondaire </h4>

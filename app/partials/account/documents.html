@@ -16,7 +16,7 @@
       </div>
 
       <table class="table ">
-        <tr ng-repeat="doc in user.documents">
+        <tr ng-repeat="doc in user.documents|orderBy:['title','type']">
           <td><a ng-href="/{{doc.type}}/{{doc.slug[0]}}"
                  i18n-render="doc.title"></a></td>
           <td>{{doc.updated|dateMoment}}</td>

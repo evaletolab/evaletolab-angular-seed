@@ -32,7 +32,7 @@ function userConfig ($routeProvider, $locationProvider, $httpProvider) {
     .when('/admin/config', {title:'Configuration ', templateUrl : '/partials/dashboard/dashboard-config.html'})
     .when('/admin/navigation', {title:'Navigation ', templateUrl : '/partials/dashboard/dashboard-navigation.html'})
     .when('/admin/activities', {title:'Configuration ', templateUrl : '/partials/dashboard/dashboard-activity.html'})
-    .when('/admin/user', {title:'Admin of users ', templateUrl : '/partials/admin/user.html'});
+    .when('/admin/user', {title:'Admin of users ', templateUrl : '/partials/dashboard/dashboard-user.html'});
 }
 
 

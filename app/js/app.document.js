@@ -144,8 +144,8 @@ function docFactory(config, $resource, $q,$rootScope, api,user) {
     available:false,
     published:false,
     skus:[],
-    style:false,
-    type: false
+    style:undefined,
+    type: undefined
   };
 
   //

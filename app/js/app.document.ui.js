@@ -139,6 +139,8 @@ function markdownRender($compile,$timeout,$translate,config) {
 
 //
 // use default i18n
+// options: parseMarkdown
+//
 i18nRender.$inject=['$rootScope','$compile','$timeout','$translate','config'];
 function i18nRender($rootScope,$compile,$timeout,$translate,config) {
   return {
@@ -169,8 +171,13 @@ function i18nRender($rootScope,$compile,$timeout,$translate,config) {
         if(attrs.parseMarkdown){
           content=converter.render(content);
         }
-        var el = $compile(content)(scope);
-        element.html(el.length?el:content);
+        try{
+          content=content||'';
+          var el = (content.length>=6)?$compile(content)(scope):content;          
+          element.html(el);
+        }catch(e){
+          element.html(content);
+        }
       }
 
       scope.$watch('i18nRender', function (i18nRender) {

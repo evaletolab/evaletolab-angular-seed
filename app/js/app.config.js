@@ -9,8 +9,8 @@ angular.module('app.config', [])
 
 //
 // implement service
-appConfig.$inject=['$q','$http','$sce','API_SERVER']; 
-function appConfig($q, $http, $sce, API_SERVER) {
+appConfig.$inject=['$q','$http','$sce','API_SERVER','$translate']; 
+function appConfig($q, $http, $sce, API_SERVER, $translate) {
   var deferred = $q.defer();
   
   var defaultConfig = {
@@ -71,8 +71,9 @@ function appConfig($q, $http, $sce, API_SERVER) {
   
   //
   // get server side config
+
   defaultConfig.shared=deferred.promise;
-  $http.get(defaultConfig.API_SERVER+'/v1/config').then(function(response){
+  $http.get(defaultConfig.API_SERVER+'/v1/config?lang='+$translate.use()).then(function(response){
       angular.extend(defaultConfig.shared,response.data);
       deferred.resolve(defaultConfig);
   });
