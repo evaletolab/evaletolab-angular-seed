@@ -1,23 +1,14 @@
-# Karibou
-### Karibou is an open-source projects aim to help the creation of a online community marketplace.
+This is the seed of the Krabou CMS *frontend* project. This is a complet seed with some cool features:
+* continuous integration,
+* sendmail with template,
+* i18n (en,fr,de) CMS,
+* basic CMS (for menu and documents),
+* receive mail for catched errors,
+* log activities,
+* complet user management (create, forget mail, update profile, admin, ...)
 
-***CAUTION: Karibou is in the very early stages of development. Things are likely
-to change in ways that are not backwards compatible***
-
-[AngularJS](http://angularjs.org) + [Brunch](http://brunch.io) + [Bootstrap](http://twitter.github.com/bootstrap/)
-
-Main Client Features:
-* User Account management
-* Create manage your store 
-* Create and manage your products
-* Order and shipping
-
-## Backends
-[karibou-api](https://github.com/evaletolab/karibou-api)
-
-## Usage
-Karibou is intended to be used with a backend, but comes with a basic NodeJS / Express server to get your started.
-
+DEMO
+* [cms.evaletolab.ch](http://cms.evaletolab.ch)
 
 ## License
 Copyright (c) 2013 Olivier Evalet 
