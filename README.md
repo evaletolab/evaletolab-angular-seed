@@ -1,11 +1,13 @@
 This is the seed of the Krabou CMS **frontend** project. This is a complet seed with some cool features:
-* continuous integration,
-* sendmail with template,
 * i18n (en,fr,de) CMS,
 * basic CMS (for menu and documents),
 * receive mail for catched errors,
-* log activities,
 * complet user management (create, forget mail, update profile, admin, ...)
+* using brunch.io (that replace gulp or grunt) for templates, compile, minimize, etc.
+* logged all errors in server side   
+* etc.
+
+
 
 DEMO
 * [cms.evaletolab.ch](http://cms.evaletolab.ch)
