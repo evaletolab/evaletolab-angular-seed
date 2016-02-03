@@ -1,4 +1,4 @@
-This is the seed of the Krabou CMS *frontend* project. This is a complet seed with some cool features:
+This is the seed of the Krabou CMS **frontend** project. This is a complet seed with some cool features:
 * continuous integration,
 * sendmail with template,
 * i18n (en,fr,de) CMS,
